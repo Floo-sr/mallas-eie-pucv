@@ -245,7 +245,7 @@
     "semestre": 6,
     "prerrequisitos": ["EIE275", "EIE274", "EIE267", "EIE280", "EIE211"],
     "creditos": 4,
-    "tipo": "Economia"
+    "tipo": "Gestion"
   },
   {
     "ramo": "INGLES 2",
