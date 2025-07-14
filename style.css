@@ -79,7 +79,7 @@ header h2 {
 }
 
 #clearCompleted:hover {
-    background-color: darken(var(--color-tertiary), 10%);
+    background-color: #8c4a43; /* Un tono más oscuro del burdeo */
 }
 
 #malla-container {
@@ -176,29 +176,29 @@ header h2 {
 }
 
 /* Colores por tipo de ramo */
+.ramo.Electrica { background-color: var(--color-electrica); }
 .ramo.Fisica { background-color: var(--color-fisica); }
 .ramo.Matematica { background-color: var(--color-matematica); }
 .ramo.FormacionFundamental { background-color: var(--color-formacion-fundamental); }
-.ramo.Electrica { background-color: var(--color-electrica); }
+.ramo.Quimica { background-color: var(--color-quimica); }
 .ramo.Programacion { background-color: var(--color-programacion); color: #333; } /* Ajuste de texto para amarillo */
 .ramo.Mecanica { background-color: var(--color-mecanica); }
-.ramo.Gestion { background-color: var(--color-gestion); color: #333;} /* Ajuste de texto para cian */
+.ramo.Estadistica { background-color: var(--color-estadistica); }
 .ramo.Laboratorio { background-color: var(--color-laboratorio); }
 .ramo.Ingles { background-color: var(--color-ingles); }
-.ramo.Quimica { background-color: var(--color-quimica); }
-.ramo.Economia { background-color: var(--color-economia); }
-.ramo.Legal { background-color: var(--color-legal); color: #333; } /* Ajuste de texto */
+.ramo.Gestion { background-color: var(--color-gestion); color: #333;} /* Ajuste de texto para cian */
 .ramo.Comunicacion { background-color: var(--color-comunicacion); color: #333; } /* Ajuste de texto */
 .ramo.Electronica { background-color: var(--color-electronica); color: #333; } /* Ajuste de texto */
 .ramo.Proyecto { background-color: var(--color-proyecto); }
-.ramo.Estadistica { background-color: var(--color-estadistica); }
+.ramo.Legal { background-color: var(--color-legal); color: #333; } /* Ajuste de texto */
+.ramo.Economia { background-color: var(--color-economia); }
 .ramo.Optativo { background-color: var(--color-optativo); }
 
 
 /* Estilos para ramos completados */
 .ramo.completed {
-    background-color: var(--highlight-completed-bg);
-    color: var(--highlight-completed-text);
+    background-color: var(--highlight-completed-bg) !important; /* !important para asegurar que sobrescriba el color de tipo */
+    color: var(--highlight-completed-text) !important;
     text-decoration: line-through;
     opacity: 0.6;
     pointer-events: auto; /* Permite hacer clic para desmarcar */
