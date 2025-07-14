@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
         mallaContainer.innerHTML = '';
 
         const ramosPorAnioYSemestre = {};
+        let maxSemestre = 0; // Variable para encontrar el semestre más alto
+
         ramosData.forEach(ramo => {
             const anio = Math.ceil(ramo.semestre / 2);
             if (!ramosPorAnioYSemestre[anio]) {
@@ -33,11 +35,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 ramosPorAnioYSemestre[anio][ramo.semestre] = [];
             }
             ramosPorAnioYSemestre[anio][ramo.semestre].push(ramo);
+
+            // Actualizar el semestre máximo encontrado
+            if (ramo.semestre > maxSemestre) {
+                maxSemestre = ramo.semestre;
+            }
         });
 
         const aniosOrdenados = Object.keys(ramosPorAnioYSemestre).sort((a, b) => parseInt(a) - parseInt(b));
 
-        aniosOrdenados.forEach(anio => {
+        // Determinar el último año basado en el semestre máximo
+        const ultimoAnio = Math.ceil(maxSemestre / 2);
+
+        for (let anio = 1; anio <= ultimoAnio; anio++) { // Iterar solo hasta el último año real
             const anioSection = document.createElement('section');
             anioSection.classList.add('anio-section');
             anioSection.innerHTML = `<h2>Año ${anio}</h2>`;
@@ -45,39 +55,42 @@ document.addEventListener('DOMContentLoaded', () => {
             const semestresContainer = document.createElement('div');
             semestresContainer.classList.add('semestres-container');
 
-            const semestresEnAnio = Object.keys(ramosPorAnioYSemestre[anio]).sort((a, b) => parseInt(a) - parseInt(b));
-
-            // Asegurar que haya 2 semestres por año, incluso si uno está vacío
-            const primerSemestreAnio = (parseInt(anio) - 1) * 2 + 1;
+            const primerSemestreAnio = (anio - 1) * 2 + 1;
             const segundoSemestreAnio = primerSemestreAnio + 1;
 
+            // Iterar sobre los dos semestres que corresponden al año, pero sin exceder maxSemestre
             [primerSemestreAnio, segundoSemestreAnio].forEach(semestreNumero => {
-                const semestreDiv = document.createElement('div');
-                semestreDiv.classList.add('semestre');
-                semestreDiv.setAttribute('data-semestre', semestreNumero);
-                semestreDiv.innerHTML = `<h3>Semestre ${semestreNumero}</h3>`;
+                // Solo renderizar semestres que son iguales o menores al maxSemestre real
+                if (semestreNumero <= maxSemestre || semestreNumero <= ultimoAnio * 2 ) { // Pequeño ajuste para asegurar que el segundo semestre del último año se muestre, incluso si es vacío y no hay ramos en él
+                    const semestreDiv = document.createElement('div');
+                    semestreDiv.classList.add('semestre');
+                    semestreDiv.setAttribute('data-semestre', semestreNumero);
+                    semestreDiv.innerHTML = `<h3>Semestre ${semestreNumero}</h3>`;
 
-                const ramosList = document.createElement('div');
-                ramosList.classList.add('ramos-list');
+                    const ramosList = document.createElement('div');
+                    ramosList.classList.add('ramos-list');
 
-                const ramosEnSemestre = ramosPorAnioYSemestre[anio][semestreNumero] || [];
-                ramosEnSemestre.sort((a, b) => a.ramo.localeCompare(b.ramo));
+                    const ramosEnSemestre = ramosPorAnioYSemestre[anio] && ramosPorAnioYSemestre[anio][semestreNumero] ? ramosPorAnioYSemestre[anio][semestreNumero] : [];
+                    ramosEnSemestre.sort((a, b) => a.ramo.localeCompare(b.ramo));
 
-                ramosEnSemestre.forEach(ramo => {
-                    const ramoDiv = createRamoElement(ramo);
-                    ramosList.appendChild(ramoDiv);
-                });
+                    ramosEnSemestre.forEach(ramo => {
+                        const ramoDiv = createRamoElement(ramo);
+                        ramosList.appendChild(ramoDiv);
+                    });
 
-                semestreDiv.appendChild(ramosList);
-                semestresContainer.appendChild(semestreDiv);
+                    semestreDiv.appendChild(ramosList);
+                    semestresContainer.appendChild(semestreDiv);
+                }
             });
 
             anioSection.appendChild(semestresContainer);
             mallaContainer.appendChild(anioSection);
-        });
+        }
 
         updateRamoStates();
     }
+
+    // ... el resto de tus funciones (createRamoElement, toggleRamoCompleted, etc.) deben ser las mismas que te di antes ...
 
     function createRamoElement(ramo) {
         const ramoDiv = document.createElement('div');
