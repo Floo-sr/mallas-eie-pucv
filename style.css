@@ -162,7 +162,8 @@ header h2 {
     font-size: 1.4em;
     border-bottom: 1px solid var(--pucv-light-blue); /* Línea debajo del semestre */
     padding-bottom: 10px;
-    font-weight: 600;
+    font-weight: 700; /* Más audaz para que resalte más */
+    text-shadow: 0 1px 1px rgba(0,0,0,0.1); /* Sombra ligera para el texto */
 }
 
 .ramos-list {
@@ -313,7 +314,7 @@ footer {
     }
 
     .semestres-container {
-        flex-direction: column; /* Apila los semestres verticalmente */
+        flex-direction: column; /* Apila los semestres verticalmente en pantallas pequeñas */
         align-items: center;
     }
 
