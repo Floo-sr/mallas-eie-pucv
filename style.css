@@ -1,0 +1,254 @@
+:root {
+    /* Colores base proporcionados */
+    --color-primary: #245c8c; /* Azul oscuro */
+    --color-secondary: #6c7486; /* Gris azulado */
+    --color-tertiary: #a45b53; /* Burdeo */
+    --color-quaternary: #a18c4b; /* Ocre */
+
+    /* Colores para tipos de ramos */
+    --color-fisica: var(--color-primary); /* Azul */
+    --color-matematica: #4a90e2; /* Celeste (variante de azul) */
+    --color-formacion-fundamental: var(--color-tertiary); /* Burdeo */
+    --color-electrica: #4CAF50; /* Verde */
+    --color-programacion: #FFC107; /* Amarillo */
+    --color-mecanica: #9C27B0; /* Púrpura */
+    --color-gestion: #00BCD4; /* Cian */
+    --color-laboratorio: #FF5722; /* Naranja */
+    --color-ingles: #795548; /* Marrón */
+    --color-quimica: #607D8B; /* Gris pizarra */
+    --color-economia: #E91E63; /* Rosa */
+    --color-legal: #7CB342; /* Verde Lima */
+    --color-comunicacion: #8BC34A; /* Verde más claro */
+    --color-electronica: #CDDC39; /* Verde lima amarillento */
+    --color-proyecto: #D81B60; /* Rosa oscuro */
+    --color-estadistica: #81D4FA; /* Azul claro */
+    --color-optativo: var(--color-secondary); /* Gris azulado por defecto para optativos */
+    --color-default: #CCCCCC; /* Gris claro para tipos no definidos */
+
+    /* Colores de resaltado */
+    --highlight-prereq: var(--color-quaternary); /* Ocre */
+    --highlight-unlocks: #4CAF50; /* Verde, para ramos que se desbloquean */
+    --highlight-completed-text: #666;
+    --highlight-completed-bg: #e0e0e0;
+    --highlight-unlocked-border: #2196F3; /* Azul brillante para desbloqueados */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 25px 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    letter-spacing: 1px;
+}
+
+header h2 {
+    margin-top: 5px;
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.controls {
+    margin-top: 15px;
+}
+
+#clearCompleted {
+    background-color: var(--color-tertiary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+#clearCompleted:hover {
+    background-color: darken(var(--color-tertiary), 10%);
+}
+
+#malla-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    gap: 30px;
+}
+
+.year-section {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.year-section h3 {
+    text-align: center;
+    color: var(--color-primary);
+    font-size: 2em;
+    margin-top: 0;
+    margin-bottom: 25px;
+    border-bottom: 3px solid var(--color-secondary);
+    padding-bottom: 10px;
+}
+
+.semesters-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centra los semestres */
+    gap: 25px;
+}
+
+.semestre {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    width: 280px; /* Ancho fijo para cada columna de semestre */
+    min-height: 250px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+
+.semestre:hover {
+    transform: translateY(-3px);
+}
+
+.semestre h4 {
+    margin-top: 0;
+    color: var(--color-secondary);
+    font-size: 1.4em;
+    text-align: center;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed #e0e0e0;
+}
+
+.ramo {
+    background-color: var(--color-default); /* Color por defecto */
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white; /* Texto blanco para contrastar con fondos de colores */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 80px;
+    position: relative; /* Para la línea tachada */
+}
+
+.ramo:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.ramo .codigo {
+    font-size: 0.85em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    opacity: 0.9;
+}
+
+.ramo .nombre {
+    font-size: 1em;
+    font-weight: 500;
+}
+
+/* Colores por tipo de ramo */
+.ramo.Fisica { background-color: var(--color-fisica); }
+.ramo.Matematica { background-color: var(--color-matematica); }
+.ramo.FormacionFundamental { background-color: var(--color-formacion-fundamental); }
+.ramo.Electrica { background-color: var(--color-electrica); }
+.ramo.Programacion { background-color: var(--color-programacion); color: #333; } /* Ajuste de texto para amarillo */
+.ramo.Mecanica { background-color: var(--color-mecanica); }
+.ramo.Gestion { background-color: var(--color-gestion); color: #333;} /* Ajuste de texto para cian */
+.ramo.Laboratorio { background-color: var(--color-laboratorio); }
+.ramo.Ingles { background-color: var(--color-ingles); }
+.ramo.Quimica { background-color: var(--color-quimica); }
+.ramo.Economia { background-color: var(--color-economia); }
+.ramo.Legal { background-color: var(--color-legal); color: #333; } /* Ajuste de texto */
+.ramo.Comunicacion { background-color: var(--color-comunicacion); color: #333; } /* Ajuste de texto */
+.ramo.Electronica { background-color: var(--color-electronica); color: #333; } /* Ajuste de texto */
+.ramo.Proyecto { background-color: var(--color-proyecto); }
+.ramo.Estadistica { background-color: var(--color-estadistica); }
+.ramo.Optativo { background-color: var(--color-optativo); }
+
+
+/* Estilos para ramos completados */
+.ramo.completed {
+    background-color: var(--highlight-completed-bg);
+    color: var(--highlight-completed-text);
+    text-decoration: line-through;
+    opacity: 0.6;
+    pointer-events: auto; /* Permite hacer clic para desmarcar */
+    transform: none;
+    box-shadow: none;
+}
+
+/* Estilos para ramos desbloqueados (listos para tomar) */
+.ramo.unlocked {
+    border: 3px solid var(--highlight-unlocked-border);
+    box-shadow: 0 0 15px rgba(33, 150, 243, 0.4); /* Resplandor azul */
+    opacity: 1;
+    transform: scale(1.01);
+}
+
+/* Estilos para resaltar prerrequisitos (al hacer clic) */
+.ramo.highlight-prereq {
+    background-color: var(--highlight-prereq) !important;
+    color: white !important;
+    border: 2px solid white;
+    opacity: 1;
+    box-shadow: 0 0 10px var(--highlight-prereq);
+    transform: scale(1.03);
+}
+
+/* Estilos para resaltar ramos que se desbloquean (al hacer clic) */
+.ramo.highlight-unlocks {
+    background-color: var(--highlight-unlocks) !important;
+    color: white !important;
+    border: 2px solid white;
+    opacity: 1;
+    box-shadow: 0 0 10px var(--highlight-unlocks);
+    transform: scale(1.03);
+}
+
+/* Estilo para el ramo actualmente seleccionado/cliqueado */
+.ramo.highlight-selected {
+    border: 3px solid #FF9800; /* Naranja para el seleccionado */
+    box-shadow: 0 0 12px rgba(255, 152, 0, 0.6);
+    transform: scale(1.04);
+}
+
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    border-top: 1px solid #ccc;
+    color: #666;
+    font-size: 0.85em;
+    background-color: white;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+}
