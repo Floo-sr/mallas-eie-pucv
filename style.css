@@ -19,19 +19,19 @@
     --color-eie-code-specific: #D32F2F; /* Rojo para ramos con código EIE, si no tienen tipo específico */
 
     /* Nuevos colores solicitados */
-    --color-optativo: #9E9E9E; /* Gris para Optativo */
-    --color-ingles: #FF9800; /* Naranja para Inglés */
-    --color-formacion-fundamental: var(--color-tertiary); /* Burdeo para Formación Fundamental (ya estaba, se reconfirma) */
-    --color-proyecto: #D32F2F; /* Rojo para Proyecto de Titulación (color rojo fuerte) [cite: 39]*/
+    --color-optativo: #9E9E9E; /* Gris para Optativo*/
+    --color-ingles: #FF9800; /* Naranja para Inglés*/
+    --color-formacion-fundamental: var(--color-tertiary); /* Burdeo para Formación Fundamental (ya estaba, se reconfirma)*/
+    --color-proyecto: #D32F2F; /* Rojo para Proyecto de Titulación (color rojo fuerte)*/
 
     /* Otros colores específicos */
-    --color-laboratorio: #FF5722; /* Naranja para Laboratorio [cite: 188, 336]*/
-    --color-gestion: #4CAF50; /* Verde para Gestión [cite: 61]*/
-    --color-comunicacion: #FFC107; /* Ámbar para Comunicación [cite: 11]*/
-    --color-electronica: #FBC02D; /* Amarillo oscuro para Electrónica [cite: 31]*/
-    --color-legal: #8BC34A; /* Verde claro para Legal [cite: 30]*/
-    --color-economia: #CDDC39; /* Verde lima para Economía [cite: 52]*/
-    --color-estadistica: #00BCD4; /* Cian para Estadística [cite: 48, 176]*/
+    --color-laboratorio: #FF5722; /* Naranja para Laboratorio*/
+    --color-gestion: #4CAF50; /* Verde para Gestión*/
+    --color-comunicacion: #FFC107; /* Ámbar para Comunicación*/
+    --color-electronica: #FBC02D; /* Amarillo oscuro para Electrónica*/
+    --color-legal: #8BC34A; /* Verde claro para Legal*/
+    --color-economia: #CDDC39; /* Verde lima para Economía*/
+    --color-estadistica: #00BCD4; /* Cian para Estadística*/
 
     /* Color por defecto y resaltados */
     --color-default-ramo: #78909C; /* Azul grisáceo para tipos no especificados */
@@ -193,23 +193,22 @@ header h2 {
 }
 
 /* Colores específicos por tipo de ramo */
-.ramo.Fisica { background-color: var(--color-fisica); } [cite: 95, 114, 151]
-.ramo.Matematica { background-color: var(--color-matematica); } [cite: 101, 120, 126, 157, 163]
-.ramo.FormacionFundamental { background-color: var(--color-formacion-fundamental); } 
-.ramo.Quimica { background-color: var(--color-quimica); } [cite: 132]
-.ramo.Mecanica { background-color: var(--color-mecanica); } [cite: 145, 237]
-.ramo.Programacion { background-color: var(--color-programacion); color: white; } [cite: 139, 213]
-.ramo.Electrica { background-color: var(--color-electrica); } [cite: 83]
-.ramo.Laboratorio { background-color: var(--color-laboratorio); } [cite: 188, 336]
-.ramo.Gestion { background-color: var(--color-gestion); } [cite: 61]
-.ramo.Comunicacion { background-color: var(--color-comunicacion); color: #333; } [cite: 11]
-.ramo.Electronica { background-color: var(--color-electronica); } [cite: 31]
-.ramo.Legal { background-color: var(--color-legal); } [cite: 30]
-.ramo.Economia { background-color: var(--color-economia); } [cite: 52]
-.ramo.Estadistica { background-color: var(--color-estadistica); } [cite: 48, 176]
-.ramo.Ingles { background-color: var(--color-ingles); } [cite: 34, 55, 61, 243, 274, 317, 348]
-.ramo.Optativo { background-color: var(--color-optativo); } [cite: 33, 36, 67, 68, 379, 385, 404, 410]
-.ramo.Proyecto { background-color: var(--color-proyecto); } /* Este color ahora es el rojo */ [cite: 39]
+.ramo.Fisica { background-color: var(--color-fisica); }
+.ramo.Matematica { background-color: var(--color-matematica); }
+.ramo.FormacionFundamental { background-color: var(--color-formacion-fundamental); }
+.ramo.Quimica { background-color: var(--color-quimica); }
+.ramo.Mecanica { background-color: var(--color-mecanica); }
+.ramo.Programacion { background-color: var(--color-programacion); color: white; }
+.ramo.Electrica { background-color: var(--color-electrica); }
+.ramo.Laboratorio { background-color: var(--color-laboratorio); }
+.ramo.Gestion { background-color: var(--color-gestion); }
+.ramo.Comunicacion { background-color: var(--color-comunicacion); color: #333; }
+.ramo.Electronica { background-color: var(--color-electronica); }
+.ramo.Legal { background-color: var(--color-legal); }
+.ramo.Economia { background-color: var(--color-economia); }
+.ramo.Estadistica { background-color: var(--color-estadistica); }
+.ramo.Ingles { background-color: var(--color-ingles); }
+.ramo.Proyecto { background-color: var(--color-proyecto); } /* Este color ahora es el rojo */
 
 
 /* Estilo específico para ramos con código que empieza por EIE,
