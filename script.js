@@ -1,206 +1,245 @@
 document.addEventListener('DOMContentLoaded', () => {
     const mallaContainer = document.getElementById('malla-container');
     const clearCompletedBtn = document.getElementById('clearCompleted');
+    let ramosData = [];
+    let completedRamos = new Set(JSON.parse(localStorage.getItem('completedRamos')) || []);
 
-    let ramos = []; // Variable para almacenar los datos de los ramos
-    let completedRamos = new Set(JSON.parse(localStorage.getItem('completedRamos') || '[]'));
-
-    // Función para cargar los ramos
-    function loadRamos() {
-        fetch('ramos.json') // Ruta al archivo ramos.json
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                ramos = data; // Asignar los datos cargados a la variable ramos
-                renderMalla(); // Una vez cargados los datos, renderizar la malla
-            })
-            .catch(error => {
-                console.error('Error al cargar ramos.json:', error);
-                mallaContainer.innerHTML = '<p style="color: red; text-align: center;">Error al cargar la malla curricular. Por favor, asegúrate de que el archivo "ramos.json" esté en la misma carpeta.</p>';
-            });
-    }
-
-    // Agrupar ramos por año y semestre
-    function groupRamosByYearAndSemestre() {
-        const years = {};
-        ramos.forEach(ramo => {
-            const year = Math.ceil(ramo.semestre / 2); // 2 semestres por año
-            if (!years[year]) {
-                years[year] = {};
-            }
-            if (!years[year][ramo.semestre]) {
-                years[year][ramo.semestre] = [];
-            }
-            years[year][ramo.semestre].push(ramo);
-        });
-        return years;
-    }
-
-    // Renderizar la malla
-    function renderMalla() {
-        mallaContainer.innerHTML = ''; // Limpiar antes de renderizar
-        const yearsData = groupRamosByYearAndSemestre();
-
-        Object.keys(yearsData).sort((a, b) => a - b).forEach(yearNum => {
-            const yearSection = document.createElement('div');
-            yearSection.classList.add('year-section');
-            yearSection.innerHTML = `<h3>Año ${yearNum}</h3><div class="semesters-grid"></div>`;
-            const semestersGrid = yearSection.querySelector('.semesters-grid');
-
-            Object.keys(yearsData[yearNum]).sort((a, b) => a - b).forEach(semestreNum => {
-                const semestreDiv = document.createElement('div');
-                semestreDiv.classList.add('semestre');
-                semestreDiv.setAttribute('data-semestre', semestreNum);
-                semestreDiv.innerHTML = `<h4>Semestre ${semestreNum}</h4>`;
-
-                yearsData[yearNum][semestreNum].forEach(ramo => {
-                    const ramoDiv = document.createElement('div');
-                    // Asegúrate de que el tipo de ramo se formatee correctamente para la clase CSS
-                    const tipoClass = ramo.tipo ? ramo.tipo.replace(/\s/g, '') : 'Default';
-                    ramoDiv.classList.add('ramo', tipoClass);
-                    ramoDiv.setAttribute('data-codigo', ramo.codigo);
-                    ramoDiv.innerHTML = `
-                        <div class="codigo">${ramo.codigo}</div>
-                        <div class="nombre">${ramo.nombre}</div>
-                        <small>Créditos: ${ramo.creditos}</small>
-                    `;
-
-                    // Marcar como completado si ya lo está
-                    if (completedRamos.has(ramo.codigo)) {
-                        ramoDiv.classList.add('completed');
-                    }
-
-                    // Evento click para toggle completado y resaltar
-                    ramoDiv.addEventListener('click', () => {
-                        toggleRamoCompletion(ramo.codigo);
-                        // No es necesario llamar a updateRamoVisualState y highlightRelatedRamos aquí
-                        // renderMalla() ya se encarga de re-renderizar y actualizar los estados
-                    });
-                    semestreDiv.appendChild(ramoDiv);
-                });
-                semestersGrid.appendChild(semestreDiv);
-            });
-            mallaContainer.appendChild(yearSection);
-        });
-        updateRamoVisualState(); // Actualiza estados iniciales de desbloqueo y el resaltado
-    }
-
-    // Toggle completion status
-    function toggleRamoCompletion(codigo) {
-        // Limpiar resaltados temporales antes de cualquier otra acción
-        document.querySelectorAll('.ramo').forEach(r => {
-            r.classList.remove('highlight-prereq', 'highlight-unlocks', 'highlight-selected');
-        });
-
-        if (completedRamos.has(codigo)) {
-            // Si el ramo ya está completado, lo desmarca
-            completedRamos.delete(codigo);
-        } else {
-            // Si el ramo NO está completado, intenta marcarlo
-            const ramoToComplete = ramos.find(r => r.codigo === codigo);
-            // Verificar si el ramoToComplete existe y tiene prerrequisitos
-            const allPrereqsMet = ramoToComplete.prerrequisitos.every(prereq => completedRamos.has(prereq));
-
-            if (allPrereqsMet) {
-                completedRamos.add(codigo);
-            } else {
-                alert(`Para aprobar "${ramoToComplete.nombre}", primero debes aprobar sus prerrequisitos.`);
-                // Resaltar los prerrequisitos faltantes si no se puede aprobar
-                highlightRelatedRamos(codigo, true); // Pasar true para indicar que solo queremos resaltar prerrequisitos faltantes
-                return; // No marca como completado si faltan prerrequisitos
-            }
-        }
-        localStorage.setItem('completedRamos', JSON.stringify(Array.from(completedRamos)));
-        renderMalla(); // Re-renderiza para reflejar los cambios y actualizar desbloqueos
-        highlightRelatedRamos(codigo); // Resaltar relacionados al final de la operación
-    }
-
-    // Actualiza el estado visual de todos los ramos (completed, unlocked)
-    function updateRamoVisualState() {
-        document.querySelectorAll('.ramo').forEach(ramoDiv => {
-            const codigo = ramoDiv.getAttribute('data-codigo');
-            const ramo = ramos.find(r => r.codigo === codigo);
-
-            // Limpiar clases de resaltado temporales
-            ramoDiv.classList.remove('highlight-prereq', 'highlight-unlocks', 'highlight-selected');
-
-            // Actualizar clase 'completed'
-            if (completedRamos.has(codigo)) {
-                ramoDiv.classList.add('completed');
-            } else {
-                ramoDiv.classList.remove('completed');
-            }
-
-            // Actualizar clase 'unlocked'
-            if (!completedRamos.has(codigo)) { // Solo si el ramo no está ya completado
-                const allPrereqsMet = ramo.prerrequisitos.every(prereq => completedRamos.has(prereq));
-                if (allPrereqsMet) {
-                    ramoDiv.classList.add('unlocked');
-                } else {
-                    ramoDiv.classList.remove('unlocked');
-                }
-            } else {
-                 ramoDiv.classList.remove('unlocked'); // Un ramo completado no está "desbloqueado"
-            }
-        });
-    }
-
-    // Resalta prerrequisitos y ramos que se desbloquean al hacer clic
-    // isOnlyPrereqHighlight: si es true, solo resalta los prerrequisitos (usado para cuando no se puede completar un ramo)
-    function highlightRelatedRamos(codigoRamoActual, isOnlyPrereqHighlight = false) {
-        // Limpia cualquier resaltado previo, excepto 'completed' y 'unlocked'
-        document.querySelectorAll('.ramo').forEach(r => {
-            // Asegúrate de no quitar .completed o .unlocked
-            if (!r.classList.contains('completed') && !r.classList.contains('unlocked')) {
-                r.classList.remove('highlight-prereq', 'highlight-unlocks', 'highlight-selected');
-            } else {
-                r.classList.remove('highlight-prereq', 'highlight-unlocks', 'highlight-selected'); // Igual se quitan los de click
-            }
-        });
-
-        // Resaltar el ramo seleccionado
-        const selectedRamoDiv = document.querySelector(`.ramo[data-codigo="${codigoRamoActual}"]`);
-        if (selectedRamoDiv) {
-            selectedRamoDiv.classList.add('highlight-selected');
-        }
-
-        // Resaltar prerrequisitos del ramo actual
-        const currentRamo = ramos.find(r => r.codigo === codigoRamoActual);
-        if (currentRamo && currentRamo.prerrequisitos) {
-            currentRamo.prerrequisitos.forEach(prereqCodigo => {
-                const prereqElement = document.querySelector(`.ramo[data-codigo="${prereqCodigo}"]`);
-                if (prereqElement) {
-                    prereqElement.classList.add('highlight-prereq');
-                }
-            });
-        }
-
-        // Resaltar ramos que este ramo desbloquea (solo si no es un highlight de "solo prerrequisitos faltantes")
-        if (!isOnlyPrereqHighlight) {
-            ramos.forEach(ramo => {
-                if (ramo.prerrequisitos.includes(codigoRamoActual)) {
-                    const unlocksElement = document.querySelector(`.ramo[data-codigo="${ramo.codigo}"]`);
-                    if (unlocksElement && !completedRamos.has(ramo.codigo)) { // Solo resalta si no está completado ya
-                        unlocksElement.classList.add('highlight-unlocks');
-                    }
-                }
-            });
-        }
-    }
-
-    // Limpiar todos los ramos completados
+    // Función para limpiar todos los ramos completados
     clearCompletedBtn.addEventListener('click', () => {
         if (confirm('¿Estás seguro de que quieres limpiar todos los ramos aprobados?')) {
             completedRamos.clear();
             localStorage.removeItem('completedRamos');
-            renderMalla(); // Re-renderiza para reflejar los cambios
+            renderMalla(); // Volver a renderizar la malla para reflejar los cambios
         }
     });
 
-    // Cargar los ramos al inicio
-    loadRamos();
+    // Cargar datos de los ramos
+    fetch('ramos.json')
+        .then(response => response.json())
+        .then(data => {
+            ramosData = data;
+            renderMalla();
+        })
+        .catch(error => console.error('Error al cargar los ramos:', error));
+
+    function renderMalla() {
+        mallaContainer.innerHTML = ''; // Limpiar contenido anterior
+
+        // Calcular el número máximo de semestres
+        const maxSemestre = Math.max(...ramosData.map(ramo => ramo.semestre));
+
+        // Crear el contenedor de la cuadrícula principal
+        const mallaGrid = document.createElement('div');
+        mallaGrid.classList.add('malla-grid-container');
+
+        // Crear encabezados de semestre
+        for (let s = 1; s <= maxSemestre; s++) {
+            const semesterHeader = document.createElement('div');
+            semesterHeader.classList.add('semester-grid-header');
+            semesterHeader.textContent = `Semestre ${s}`;
+            mallaGrid.appendChild(semesterHeader);
+        }
+
+        // Crear los contenedores para cada semestre (columnas)
+        const semesterColumns = {};
+        for (let s = 1; s <= maxSemestre; s++) {
+            const semestreDiv = document.createElement('div');
+            semestreDiv.classList.add('semestre-grid-column');
+            semestreDiv.setAttribute('data-semestre', s);
+            semesterColumns[s] = semestreDiv; // Guardar referencia para añadir ramos
+            mallaGrid.appendChild(semestreDiv);
+        }
+
+        // Agrupar ramos por semestre
+        const ramosPorSemestre = {};
+        ramosData.forEach(ramo => {
+            if (!ramosPorSemestre[ramo.semestre]) {
+                ramosPorSemestre[ramo.semestre] = [];
+            }
+            ramosPorSemestre[ramo.semestre].push(ramo);
+        });
+
+        // Añadir ramos a sus respectivas columnas de semestre
+        for (let s = 1; s <= maxSemestre; s++) {
+            const ramosEnSemestre = ramosPorSemestre[s] || [];
+            ramosEnSemestre.sort((a, b) => a.nombre.localeCompare(b.nombre)); // Opcional: ordenar alfabéticamente
+
+            ramosEnSemestre.forEach(ramo => {
+                const ramoDiv = createRamoElement(ramo);
+                semesterColumns[s].appendChild(ramoDiv);
+            });
+        }
+
+        mallaContainer.appendChild(mallaGrid);
+        updateRamoStates(); // Actualizar estados iniciales (completados, desbloqueados)
+    }
+
+
+    function createRamoElement(ramo) {
+        const ramoDiv = document.createElement('div');
+        ramoDiv.classList.add('ramo');
+        ramoDiv.classList.add(ramo.tipo.replace(/\s/g, '')); // Añade clase con el tipo (sin espacios)
+        ramoDiv.setAttribute('data-codigo', ramo.codigo);
+        ramoDiv.setAttribute('data-semestre', ramo.semestre);
+        ramoDiv.setAttribute('data-prerrequisitos', JSON.stringify(ramo.prerrequisitos)); // Guardar prerrequisitos
+
+        ramoDiv.innerHTML = `
+            <div class="codigo">${ramo.codigo}</div>
+            <div class="nombre">${ramo.nombre}</div>
+            <div class="creditos">${ramo.creditos} Créditos</div>
+        `;
+
+        // Marcar si está completado
+        if (completedRamos.has(ramo.codigo)) {
+            ramoDiv.classList.add('completed');
+        }
+
+        ramoDiv.addEventListener('click', () => {
+            toggleRamoCompleted(ramo.codigo);
+        });
+
+        ramoDiv.addEventListener('mouseover', () => {
+            highlightRelatedRamos(ramo.codigo);
+        });
+
+        ramoDiv.addEventListener('mouseout', () => {
+            clearHighlights();
+        });
+
+        return ramoDiv;
+    }
+
+    function toggleRamoCompleted(codigo) {
+        if (completedRamos.has(codigo)) {
+            completedRamos.delete(codigo);
+        } else {
+            // Verificar prerrequisitos antes de marcar como completado
+            const ramo = ramosData.find(r => r.codigo === codigo);
+            if (ramo && !arePrerequisitesMet(ramo.prerrequisitos)) {
+                alert('No puedes marcar este ramo como aprobado, ¡faltan prerrequisitos!');
+                return;
+            }
+            completedRamos.add(codigo);
+        }
+        localStorage.setItem('completedRamos', JSON.stringify(Array.from(completedRamos)));
+        updateRamoStates(); // Actualizar todos los ramos
+    }
+
+    function arePrerequisitesMet(prerrequisitos) {
+        if (!prerrequisitos || prerrequisitos.length === 0) {
+            return true; // No hay prerrequisitos
+        }
+        // Todos los prerrequisitos deben estar en el conjunto de ramos completados
+        return prerrequisitos.every(prereq => completedRamos.has(prereq));
+    }
+
+    function updateRamoStates() {
+        document.querySelectorAll('.ramo').forEach(ramoDiv => {
+            const codigo = ramoDiv.dataset.codigo;
+            const ramo = ramosData.find(r => r.codigo === codigo);
+
+            ramoDiv.classList.remove('completed', 'unlocked', 'highlight-prereq', 'highlight-unlocks', 'highlight-selected');
+
+            if (completedRamos.has(codigo)) {
+                ramoDiv.classList.add('completed');
+            } else if (ramo && arePrerequisitesMet(ramo.prerrequisitos)) {
+                ramoDiv.classList.add('unlocked');
+            }
+        });
+    }
+
+    let currentSelectedRamo = null; // Para manejar el resaltado persistente al hacer clic
+
+    function highlightRelatedRamos(codigo) {
+        if (currentSelectedRamo === codigo) return; // No hacer nada si ya está seleccionado
+
+        clearHighlights(); // Limpiar resaltados anteriores
+
+        const selectedRamoDiv = document.querySelector(`.ramo[data-codigo="${codigo}"]`);
+        if (!selectedRamoDiv) return;
+
+        // Resaltar el ramo seleccionado
+        selectedRamoDiv.classList.add('highlight-selected');
+
+        const ramo = ramosData.find(r => r.codigo === codigo);
+
+        if (ramo) {
+            // Resaltar prerrequisitos
+            ramo.prerrequisitos.forEach(prereqCodigo => {
+                const prereqDiv = document.querySelector(`.ramo[data-codigo="${prereqCodigo}"]`);
+                if (prereqDiv) {
+                    prereqDiv.classList.add('highlight-prereq');
+                }
+            });
+
+            // Resaltar ramos que este ramo desbloquea
+            ramosData.forEach(otherRamo => {
+                if (otherRamo.prerrequisitos.includes(codigo)) {
+                    const unlocksDiv = document.querySelector(`.ramo[data-codigo="${otherRamo.codigo}"]`);
+                    if (unlocksDiv) {
+                        unlocksDiv.classList.add('highlight-unlocks');
+                    }
+                }
+            });
+        }
+    }
+
+    function clearHighlights() {
+        document.querySelectorAll('.ramo').forEach(ramoDiv => {
+            ramoDiv.classList.remove('highlight-prereq', 'highlight-unlocks', 'highlight-selected');
+        });
+    }
+
+    // Al hacer clic en un ramo, también podemos hacer que el resaltado sea persistente
+    mallaContainer.addEventListener('click', (event) => {
+        const clickedRamo = event.target.closest('.ramo');
+        if (clickedRamo) {
+            const codigo = clickedRamo.dataset.codigo;
+            if (currentSelectedRamo === codigo) {
+                // Si se hace clic en el mismo ramo, lo deseleccionamos
+                currentSelectedRamo = null;
+                clearHighlights();
+            } else {
+                // Si se hace clic en un ramo diferente, lo seleccionamos
+                currentSelectedRamo = codigo;
+                highlightRelatedRamos(codigo);
+            }
+        } else {
+            // Si se hace clic fuera de un ramo, deseleccionamos todo
+            currentSelectedRamo = null;
+            clearHighlights();
+        }
+    });
+
+    // Limpiar resaltados al mover el ratón fuera de un ramo si no hay uno seleccionado clickeado
+    mallaContainer.addEventListener('mouseout', (event) => {
+        if (currentSelectedRamo === null) {
+            clearHighlights();
+        }
+    });
+
+    // Al pasar el ratón por encima, se muestra el resaltado, pero no se altera el 'currentSelectedRamo'
+    mallaContainer.addEventListener('mouseover', (event) => {
+        const hoveredRamo = event.target.closest('.ramo');
+        if (hoveredRamo && currentSelectedRamo !== hoveredRamo.dataset.codigo) {
+            highlightRelatedRamos(hoveredRamo.dataset.codigo);
+        } else if (!hoveredRamo && currentSelectedRamo === null) {
+             // Si el ratón sale de un ramo y no hay uno clickeado, limpiar
+            clearHighlights();
+        }
+    });
+
+    // Asegurarse de que el último clic permanezca si el ratón sale y vuelve a entrar
+    mallaContainer.addEventListener('mouseleave', () => {
+        if (currentSelectedRamo !== null) {
+            // Si hay un ramo clickeado, solo limpiar los demás resaltados (no el seleccionado)
+            // y luego volver a aplicar el del clickeado. Esto evita que se borre si el mouse sale del container.
+            clearHighlights(); // Limpiar todo primero
+            if(currentSelectedRamo) {
+                 highlightRelatedRamos(currentSelectedRamo); // Volver a resaltar el seleccionado
+            }
+        } else {
+            clearHighlights();
+        }
+    });
 });
