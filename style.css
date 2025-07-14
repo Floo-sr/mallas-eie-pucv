@@ -1,29 +1,251 @@
-/* Colores de ramos */
-.ramo.Fisica { background-color: var(--color-fisica); }
-.ramo.Matematica { background-color: var(--color-matematica); }
-.ramo.Quimica { background-color: var(--color-quimica); }
-.ramo.Mecanica { background-color: var(--color-mecanica); }
-.ramo.Programacion { background-color: var(--color-programacion); }
-.ramo.Electrica { background-color: var(--color-electrica); }
-.ramo.Laboratorio { background-color: var(--color-laboratorio); }
-.ramo.Gestion { background-color: var(--color-gestion); }
-.ramo.Comunicacion { background-color: var(--color-comunicacion); }
-.ramo.Electronica { background-color: var(--color-electronica); }
-.ramo.Legal { background-color: var(--color-legal); }
-.ramo.Economia { background-color: var(--color-economia); }
-.ramo.Estadistica { background-color: var(--color-estadistica); }
-.ramo.Ingles { background-color: var(--color-ingles); }
-.ramo.Proyecto { background-color: var(--color-proyecto); }
-.ramo.Optativo { background-color: var(--color-optativo); }
-.ramo.FormacionFundamental { background-color: var(--color-formacionfundamental); }
+:root {
+    /* Colores base de la PUCV */
+    --pucv-blue: #004A8F; /* Azul principal PUCV */
+    --pucv-light-blue: #007bff; /* Azul más claro, para algunos fondos */
+    --pucv-gold: #FFB300; /* Dorado/Amarillo PUCV */
+    --pucv-grey: #6c757d; /* Gris para texto secundario */
+    --pucv-dark-grey: #343a40; /* Gris oscuro para texto principal y fondos */
+    --pucv-red: #DC3545; /* Rojo para limpiar ramos */
 
-/* Para ramos sin tipo definido, o con tipo no reconocido, o el color por defecto */
-.ramo {
-    background-color: var(--pucv-dark-grey); /* O un color neutro que prefieras */
+    /* Colores de ramos (adaptados para armonizar con PUCV) */
+    /* Asegúrate de que estos nombres de clases coincidan con lo que genera script.js (todo en minúsculas, sin tildes/espacios) */
+    --color-fisica: #1A5276; /* Azul profundo */
+    --color-matematica: #21618C; /* Azul un poco más claro */
+    --color-quimica: #117A65; /* Verde azulado oscuro */
+    --color-mecanica: #616A6B; /* Gris plomo */
+    --color-programacion: #2874A6; /* Azul brillante */
+    --color-electrica: #D68910; /* Naranja quemado */
+    --color-laboratorio: #BA4A00; /* Naranja oscuro */
+    --color-gestion: #28B463; /* Verde esmeralda */
+    --color-comunicacion: #F39C12; /* Naranja amarillo */
+    --color-electronica: #F4D03F; /* Amarillo mostaza */
+    --color-legal: #884EA0; /* Púrpura oscuro */
+    --color-economia: #CB4335; /* Rojo teja */
+    --color-estadistica: #17A589; /* Verde azulado */
+    --color-ingles: #3D8FFD; /* Azul claro vibrante */
+    --color-proyecto: #C0392B; /* Rojo ladrillo */
+    --color-optativo: #99A3A4; /* Gris neutro */
+    --color-formacionfundamental: #7D3C98; /* Morado oscuro */
+    --color-tipodesconocido: #AAB7B8; /* Gris claro para ramos sin tipo definido */
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6; /* Fondo general más claro */
+    color: var(--pucv-dark-grey);
+    line-height: 1.6;
+}
+
+header {
+    background-color: var(--pucv-blue);
     color: white;
-    padding: 10px;
-    margin: 5px;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    font-weight: 700;
+}
+
+header h2 {
+    margin: 5px 0 15px;
+    font-size: 1.2em;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+#clearCompleted {
+    background-color: var(--pucv-red);
+    color: white;
+    border: none;
+    padding: 10px 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    /* ... otras propiedades ... */
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+#clearCompleted:hover {
+    background-color: #c82333; /* Rojo más oscuro al pasar el ratón */
+}
+
+main {
+    max-width: 1300px; /* Ancho máximo para la malla */
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+.anio-section {
+    background-color: #ffffff; /* Fondo blanco para cada año */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+    padding: 20px;
+}
+
+.anio-section h2 {
+    text-align: center;
+    color: var(--pucv-blue);
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 2em;
+    font-weight: 600;
+    border-bottom: 2px solid var(--pucv-light-blue);
+    padding-bottom: 10px;
+}
+
+.semestres-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; /* Permite que los semestres se envuelvan en pantallas pequeñas */
+    gap: 20px; /* Espacio entre semestres */
+}
+
+.semestre {
+    background-color: #f0f4f7; /* Fondo ligeramente azulado para los semestres */
+    border-radius: 8px;
+    padding: 15px;
+    min-width: 250px; /* Ancho mínimo para cada columna de semestre */
+    flex: 1; /* Permite que los semestres se expandan uniformemente */
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.05); /* Sombra interna para profundidad */
+    border: 1px solid #e0e5ea;
+}
+
+.semestre h3 {
+    text-align: center;
+    color: var(--pucv-blue);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+    font-weight: 600;
+}
+
+.ramos-list {
+    display: flex;
+    flex-direction: column; /* Ramos apilados verticalmente dentro del semestre */
+    gap: 10px; /* Espacio entre ramos */
+}
+
+.ramo {
+    color: white; /* Texto blanco para todos los ramos */
+    padding: 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+    cursor: pointer;
+    font-size: 0.9em;
+    min-height: 80px; /* Altura mínima para cada ramo */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    border: 2px solid transparent; /* Borde para resaltar */
+}
+
+.ramo:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.25);
+}
+
+.ramo.completed {
+    background-color: #28a745 !important; /* Verde para ramos aprobados */
+    border-color: #218838;
+    opacity: 0.8; /* Ligeramente más transparente */
+}
+
+.ramo.unlocked {
+    border-color: var(--pucv-gold); /* Borde dorado para ramos desbloqueados */
+    box-shadow: 0 0 0 3px var(--pucv-gold); /* Contorno dorado */
+    transform: scale(1.02); /* Ligeramente más grande */
+}
+
+/* Estilos para cada tipo de ramo (CLASES EN MINÚSCULAS) */
+.ramo.fisica { background-color: var(--color-fisica); }
+.ramo.matematica { background-color: var(--color-matematica); }
+.ramo.quimica { background-color: var(--color-quimica); }
+.ramo.mecanica { background-color: var(--color-mecanica); }
+.ramo.programacion { background-color: var(--color-programacion); }
+.ramo.electrica { background-color: var(--color-electrica); }
+.ramo.laboratorio { background-color: var(--color-laboratorio); }
+.ramo.gestion { background-color: var(--color-gestion); }
+.ramo.comunicacion { background-color: var(--color-comunicacion); }
+.ramo.electronica { background-color: var(--color-electronica); }
+.ramo.legal { background-color: var(--color-legal); }
+.ramo.economia { background-color: var(--color-economia); }
+.ramo.estadistica { background-color: var(--color-estadistica); }
+.ramo.ingles { background-color: var(--color-ingles); }
+.ramo.proyecto { background-color: var(--color-proyecto); }
+.ramo.optativo { background-color: var(--color-optativo); }
+.ramo.formacionfundamental { background-color: var(--color-formacionfundamental); }
+.ramo.tipodesconocido { background-color: var(--color-tipodesconocido); } /* Estilo para tipo no reconocido */
+
+
+/* Estilos para el resaltado de prerrequisitos y desbloqueados */
+.ramo.highlight-selected {
+    border: 3px solid var(--pucv-gold) !important;
+    box-shadow: 0 0 15px var(--pucv-gold);
+    transform: scale(1.05);
+    z-index: 10; /* Asegura que esté por encima de otros ramos */
+}
+
+.ramo.highlight-prereq {
+    border: 2px solid #DC3545; /* Rojo para prerrequisitos */
+    opacity: 0.7;
+    transform: scale(1.02);
+}
+
+.ramo.highlight-unlocks {
+    border: 2px solid #28a745; /* Verde para ramos que desbloquea */
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+
+.ramo .codigo {
+    font-weight: 700;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+.ramo .nombre {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.ramo .creditos {
+    font-size: 0.85em;
+    opacity: 0.9;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    background-color: var(--pucv-blue);
+    color: white;
+    font-size: 0.9em;
+    box-shadow: 0 -4px 8px rgba(0,0,0,0.1);
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+    header h2 {
+        font-size: 1em;
+    }
+    .semestres-container {
+        flex-direction: column; /* Semestres se apilan verticalmente en pantallas pequeñas */
+        align-items: center; /* Centra los semestres apilados */
+    }
+    .semestre {
+        width: 90%; /* Ocupa casi todo el ancho disponible */
+        min-width: unset; /* Elimina el ancho mínimo fijo */
+    }
 }
