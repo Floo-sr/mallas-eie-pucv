@@ -161,7 +161,7 @@
   },
   {
     "nombre": "FORMACION FUNDAMENTAL I",
-    "codigo": "FFI401",
+    "codigo": "FOFU1",
     "semestre": 4,
     "prerrequisitos": ["FIN100", "EIR010"],
     "creditos": 2,
@@ -257,9 +257,9 @@
   },
   {
     "nombre": "FORMACION FUNDAMENTAL II",
-    "codigo": "FFI602",
+    "codigo": "FOFU2",
     "semestre": 6,
-    "prerrequisitos": ["FFI401"],
+    "prerrequisitos": ["FOFU1"],
     "creditos": 2,
     "tipo": "Formacion Fundamental"
   },
@@ -353,9 +353,9 @@
   },
   {
     "nombre": "FORMACION FUNDAMENTAL III",
-    "codigo": "FFI803",
+    "codigo": "FOFU3",
     "semestre": 8,
-    "prerrequisitos": ["FFI602"],
+    "prerrequisitos": ["FOFU2"],
     "creditos": 2,
     "tipo": "Formacion Fundamental"
   },
@@ -433,9 +433,9 @@
   },
   {
     "nombre": "FORMACION FUNDAMENTAL IV",
-    "codigo": "FFI1004",
+    "codigo": "FOFU4",
     "semestre": 10,
-    "prerrequisitos": ["FFI803"],
+    "prerrequisitos": ["FOFU3"],
     "creditos": 2,
     "tipo": "Formacion Fundamental"
   },
