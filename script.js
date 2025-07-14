@@ -25,68 +25,74 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderMalla() {
         mallaContainer.innerHTML = ''; // Limpiar contenido anterior
 
-        // Calcular el número máximo de semestres
-        const maxSemestre = Math.max(...ramosData.map(ramo => ramo.semestre));
-
-        // Crear el contenedor de la cuadrícula principal
-        const mallaGrid = document.createElement('div');
-        mallaGrid.classList.add('malla-grid-container');
-
-        // Crear encabezados de semestre
-        for (let s = 1; s <= maxSemestre; s++) {
-            const semesterHeader = document.createElement('div');
-            semesterHeader.classList.add('semester-grid-header');
-            semesterHeader.textContent = `Semestre ${s}`;
-            mallaGrid.appendChild(semesterHeader);
-        }
-
-        // Crear los contenedores para cada semestre (columnas)
-        const semesterColumns = {};
-        for (let s = 1; s <= maxSemestre; s++) {
-            const semestreDiv = document.createElement('div');
-            semestreDiv.classList.add('semestre-grid-column');
-            semestreDiv.setAttribute('data-semestre', s);
-            semesterColumns[s] = semestreDiv; // Guardar referencia para añadir ramos
-            mallaGrid.appendChild(semestreDiv);
-        }
-
-        // Agrupar ramos por semestre
-        const ramosPorSemestre = {};
+        // Agrupar ramos por año y luego por semestre
+        const ramosPorAnioYSemestre = {};
         ramosData.forEach(ramo => {
-            if (!ramosPorSemestre[ramo.semestre]) {
-                ramosPorSemestre[ramo.semestre] = [];
+            const anio = Math.ceil(ramo.semestre / 2); // Calcula el año basándose en el semestre
+            if (!ramosPorAnioYSemestre[anio]) {
+                ramosPorAnioYSemestre[anio] = {};
             }
-            ramosPorSemestre[ramo.semestre].push(ramo);
+            if (!ramosPorAnioYSemestre[anio][ramo.semestre]) {
+                ramosPorAnioYSemestre[anio][ramo.semestre] = [];
+            }
+            ramosPorAnioYSemestre[anio][ramo.semestre].push(ramo);
         });
 
-        // Añadir ramos a sus respectivas columnas de semestre
-        for (let s = 1; s <= maxSemestre; s++) {
-            const ramosEnSemestre = ramosPorSemestre[s] || [];
-            ramosEnSemestre.sort((a, b) => a.nombre.localeCompare(b.nombre)); // Opcional: ordenar alfabéticamente
+        const aniosOrdenados = Object.keys(ramosPorAnioYSemestre).sort((a, b) => parseInt(a) - parseInt(b));
 
-            ramosEnSemestre.forEach(ramo => {
-                const ramoDiv = createRamoElement(ramo);
-                semesterColumns[s].appendChild(ramoDiv);
+        aniosOrdenados.forEach(anio => {
+            const anioSection = document.createElement('section');
+            anioSection.classList.add('anio-section');
+            anioSection.innerHTML = `<h2>Año ${anio}</h2>`;
+
+            const semestresContainer = document.createElement('div');
+            semestresContainer.classList.add('semestres-container');
+
+            // Determinar los semestres para este año (ej. 1 y 2 para Año 1, 3 y 4 para Año 2)
+            const semestresEnAnio = Object.keys(ramosPorAnioYSemestre[anio]).sort((a, b) => parseInt(a) - parseInt(b));
+
+            semestresEnAnio.forEach(semestre => {
+                const semestreDiv = document.createElement('div');
+                semestreDiv.classList.add('semestre');
+                semestreDiv.setAttribute('data-semestre', semestre);
+                semestreDiv.innerHTML = `<h3>Semestre ${semestre}</h3>`;
+
+                const ramosList = document.createElement('div');
+                ramosList.classList.add('ramos-list');
+
+                const ramosEnSemestre = ramosPorAnioYSemestre[anio][semestre] || [];
+                // Opcional: ordenar ramos dentro del semestre si quieres un orden específico, por ejemplo por código o nombre
+                ramosEnSemestre.sort((a, b) => a.ramo.localeCompare(b.ramo));
+
+                ramosEnSemestre.forEach(ramo => {
+                    const ramoDiv = createRamoElement(ramo);
+                    ramosList.appendChild(ramoDiv);
+                });
+
+                semestreDiv.appendChild(ramosList);
+                semestresContainer.appendChild(semestreDiv);
             });
-        }
 
-        mallaContainer.appendChild(mallaGrid);
+            anioSection.appendChild(semestresContainer);
+            mallaContainer.appendChild(anioSection);
+        });
+
         updateRamoStates(); // Actualizar estados iniciales (completados, desbloqueados)
     }
-
 
     function createRamoElement(ramo) {
         const ramoDiv = document.createElement('div');
         ramoDiv.classList.add('ramo');
-        ramoDiv.classList.add(ramo.tipo.replace(/\s/g, '')); // Añade clase con el tipo (sin espacios)
+        // Asegúrate de limpiar el nombre del tipo para usarlo como clase CSS
+        ramoDiv.classList.add(ramo.tipo.replace(/\s/g, '').replace(/á/g, 'a').replace(/é/g, 'e').replace(/í/g, 'i').replace(/ó/g, 'o').replace(/ú/g, 'u'));
         ramoDiv.setAttribute('data-codigo', ramo.codigo);
         ramoDiv.setAttribute('data-semestre', ramo.semestre);
         ramoDiv.setAttribute('data-prerrequisitos', JSON.stringify(ramo.prerrequisitos)); // Guardar prerrequisitos
 
         ramoDiv.innerHTML = `
-            <div class="codigo">${ramo.codigo}</div>
-            <div class="nombre">${ramo.nombre}</div>
-            <div class="creditos">${ramo.creditos} Créditos</div>
+            <div class="codigo">${ramo.codigo || 'N/A'}</div>
+            <div class="nombre">${ramo.ramo}</div>
+            <div class="creditos">${ramo.creditos || 'N/A'} Créditos</div>
         `;
 
         // Marcar si está completado
@@ -148,23 +154,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    let currentSelectedRamo = null; // Para manejar el resaltado persistente al hacer clic
+    let currentSelectedRamo = null;
 
     function highlightRelatedRamos(codigo) {
-        if (currentSelectedRamo === codigo) return; // No hacer nada si ya está seleccionado
+        if (currentSelectedRamo === codigo) return;
 
-        clearHighlights(); // Limpiar resaltados anteriores
+        clearHighlights();
 
         const selectedRamoDiv = document.querySelector(`.ramo[data-codigo="${codigo}"]`);
         if (!selectedRamoDiv) return;
 
-        // Resaltar el ramo seleccionado
         selectedRamoDiv.classList.add('highlight-selected');
 
         const ramo = ramosData.find(r => r.codigo === codigo);
 
         if (ramo) {
-            // Resaltar prerrequisitos
             ramo.prerrequisitos.forEach(prereqCodigo => {
                 const prereqDiv = document.querySelector(`.ramo[data-codigo="${prereqCodigo}"]`);
                 if (prereqDiv) {
@@ -172,7 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Resaltar ramos que este ramo desbloquea
             ramosData.forEach(otherRamo => {
                 if (otherRamo.prerrequisitos.includes(codigo)) {
                     const unlocksDiv = document.querySelector(`.ramo[data-codigo="${otherRamo.codigo}"]`);
@@ -190,53 +193,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Al hacer clic en un ramo, también podemos hacer que el resaltado sea persistente
     mallaContainer.addEventListener('click', (event) => {
         const clickedRamo = event.target.closest('.ramo');
         if (clickedRamo) {
             const codigo = clickedRamo.dataset.codigo;
             if (currentSelectedRamo === codigo) {
-                // Si se hace clic en el mismo ramo, lo deseleccionamos
                 currentSelectedRamo = null;
                 clearHighlights();
             } else {
-                // Si se hace clic en un ramo diferente, lo seleccionamos
                 currentSelectedRamo = codigo;
                 highlightRelatedRamos(codigo);
             }
         } else {
-            // Si se hace clic fuera de un ramo, deseleccionamos todo
             currentSelectedRamo = null;
             clearHighlights();
         }
     });
 
-    // Limpiar resaltados al mover el ratón fuera de un ramo si no hay uno seleccionado clickeado
     mallaContainer.addEventListener('mouseout', (event) => {
         if (currentSelectedRamo === null) {
             clearHighlights();
         }
     });
 
-    // Al pasar el ratón por encima, se muestra el resaltado, pero no se altera el 'currentSelectedRamo'
     mallaContainer.addEventListener('mouseover', (event) => {
         const hoveredRamo = event.target.closest('.ramo');
         if (hoveredRamo && currentSelectedRamo !== hoveredRamo.dataset.codigo) {
             highlightRelatedRamos(hoveredRamo.dataset.codigo);
         } else if (!hoveredRamo && currentSelectedRamo === null) {
-             // Si el ratón sale de un ramo y no hay uno clickeado, limpiar
             clearHighlights();
         }
     });
 
-    // Asegurarse de que el último clic permanezca si el ratón sale y vuelve a entrar
     mallaContainer.addEventListener('mouseleave', () => {
         if (currentSelectedRamo !== null) {
-            // Si hay un ramo clickeado, solo limpiar los demás resaltados (no el seleccionado)
-            // y luego volver a aplicar el del clickeado. Esto evita que se borre si el mouse sale del container.
-            clearHighlights(); // Limpiar todo primero
+            clearHighlights();
             if(currentSelectedRamo) {
-                 highlightRelatedRamos(currentSelectedRamo); // Volver a resaltar el seleccionado
+                 highlightRelatedRamos(currentSelectedRamo);
             }
         } else {
             clearHighlights();
