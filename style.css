@@ -2,26 +2,41 @@
 
 :root {
     /* Colores base proporcionados */
-    --color-primary: #245c8c; /* Azul oscuro */
-    --color-secondary: #6c7486; /* Gris azulado */
-    --color-tertiary: #a45b53; /* Burdeo */
-    --color-quaternary: #a18c4b; /* Ocre */
+    --color-primary: #245c8c; /* Azul oscuro - Base para el header y Física */
+    --color-secondary: #6c7486; /* Gris azulado - Base para el texto secundario */
+    --color-tertiary: #a45b53; /* Burdeo - Formación Fundamental */
+    --color-quaternary: #a18c4b; /* Ocre - Resaltado de prerrequisitos */
 
-    /* Colores para tipos de ramos específicos */
+    /* Colores para tipos de ramos específicos (personalizados) */
     --color-fisica: var(--color-primary); /* Azul de Física */
     --color-matematica: #4a90e2; /* Celeste de Matemática */
-    --color-formacion-fundamental: var(--color-tertiary); /* Burdeo de Formación Fundamental */
     --color-quimica: #607D8B; /* Gris pizarra de Química */
-    --color-mecanica: #9C27B0; /* Púrpura para Mecánica */
-    --color-programacion: #8c721b; /* Amarillo mostaza más oscuro para Programación */
-    --color-eie: #4CAF50; /* Verde para ramos con código EIE */
 
-    /* Color por defecto para tipos no especificados (todos los demás) */
-    --color-default-ramo: var(--color-secondary); /* Gris azulado */
+    /* Nuevos y ajustados colores específicos */
+    --color-mecanica: #6A1B9A; /* Púrpura más oscuro para Mecánica (menos chillón) */
+    --color-programacion: #795548; /* Marrón para Programación (menos chillón que el amarillo) */
+    --color-electrica: #00796B; /* Verde azulado oscuro para Eléctrica (incluye electromagnetismo, campos, conversión) */
+    --color-eie-code-specific: #D32F2F; /* Rojo para ramos con código EIE, si no tienen tipo específico */
 
-    /* Colores de resaltado */
+    /* Nuevos colores solicitados */
+    --color-optativo: #9E9E9E; /* Gris para Optativo */
+    --color-ingles: #FF9800; /* Naranja para Inglés */
+    --color-formacion-fundamental: var(--color-tertiary); /* Burdeo para Formación Fundamental (ya estaba, se reconfirma) */
+    --color-proyecto: #D32F2F; /* Rojo para Proyecto de Titulación (color rojo fuerte) */
+
+    /* Otros colores específicos */
+    --color-laboratorio: #FF5722; /* Naranja para Laboratorio */
+    --color-gestion: #4CAF50; /* Verde para Gestión */
+    --color-comunicacion: #FFC107; /* Ámbar para Comunicación */
+    --color-electronica: #FBC02D; /* Amarillo oscuro para Electrónica */
+    --color-legal: #8BC34A; /* Verde claro para Legal */
+    --color-economia: #CDDC39; /* Verde lima para Economía */
+    --color-estadistica: #00BCD4; /* Cian para Estadística */
+
+    /* Color por defecto y resaltados */
+    --color-default-ramo: #78909C; /* Azul grisáceo para tipos no especificados */
     --highlight-prereq: var(--color-quaternary); /* Ocre */
-    --highlight-unlocks: #4CAF50; /* Verde, para ramos que se desbloquean */
+    --highlight-unlocks: #4CAF50; /* Verde brillante, para ramos que se desbloquean */
     --highlight-completed-text: #666;
     --highlight-completed-bg: #e0e0e0;
     --highlight-unlocked-border: #2196F3; /* Azul brillante para desbloqueados */
@@ -86,7 +101,6 @@ header h2 {
     flex-direction: column; /* Las secciones de año se apilan verticalmente */
     padding: 0 20px;
     gap: 30px;
-    /* overflow-x: auto; Ya no es necesario aquí, será en semesters-grid si aplica */
 }
 
 .year-section {
@@ -188,19 +202,32 @@ header h2 {
 .ramo.FormacionFundamental { background-color: var(--color-formacion-fundamental); }
 .ramo.Quimica { background-color: var(--color-quimica); }
 .ramo.Mecanica { background-color: var(--color-mecanica); }
-.ramo.Programacion { background-color: var(--color-programacion); color: #333; } /* Texto oscuro para fondo claro */
+.ramo.Programacion { background-color: var(--color-programacion); color: white; }
+.ramo.Electrica { background-color: var(--color-electrica); }
+.ramo.Laboratorio { background-color: var(--color-laboratorio); }
+.ramo.Gestion { background-color: var(--color-gestion); }
+.ramo.Comunicacion { background-color: var(--color-comunicacion); color: #333; }
+.ramo.Electronica { background-color: var(--color-electronica); color: #333; }
+.ramo.Legal { background-color: var(--color-legal); color: #333; }
+.ramo.Economia { background-color: var(--color-economia); color: #333; }
+.ramo.Estadistica { background-color: var(--color-estadistica); }
 
-/* Nuevo color para ramos con código que empieza por EIE */
-/* Nota: Este estilo debe ir DESPUÉS de los estilos por 'tipo' si un ramo EIE también tiene un tipo con color específico
-   y queremos que el color de 'tipo' prevalezca. Si queremos que EIE prevalezca, debe ir antes.
-   Aquí lo pondré al final para que sobrescriba el 'default' pero no los 'tipo' específicos.
-   Para que sobrescriba los 'tipo' también, se necesitaría un !important o una mayor especificidad.
-   Por ahora, solo aplicará a los ramos EIE que no tengan un tipo con color ya definido (ej: Electrica, Estadistica, etc.)
+/* Nuevos ramos solicitados por color */
+.ramo.Ingles { background-color: var(--color-ingles); }
+.ramo.Optativo { background-color: var(--color-optativo); }
+.ramo.Proyecto { background-color: var(--color-proyecto); }
+
+
+/* Estilo específico para ramos con código que empieza por EIE,
+   ESTE COLOR APLICARÁ SÓLO SI EL RAMO NO TIENE UN 'TIPO' DEFINIDO ARRIBA CON SU PROPIO COLOR.
+   Si un ramo es "Electrica" y su código empieza con "EIE", prevalecerá el color de "Electrica".
+   Si quieres que EIE prevalezca siempre, usa `!important` y reordena.
 */
-.ramo[data-codigo^="EIE"] {
-    background-color: var(--color-eie);
+.ramo[data-codigo^="EIE"]:not(.Electrica):not(.Programacion):not(.Mecanica):not(.Laboratorio):not(.Gestion):not(.Comunicacion):not(.Electronica):not(.Proyecto):not(.Legal):not(.Economia):not(.Estadistica):not(.Ingles):not(.Optativo):not(.Fisica):not(.Matematica):not(.FormacionFundamental):not(.Quimica) {
+    background-color: var(--color-eie-code-specific); /* Rojo solo para los EIE que no tengan un tipo con color ya asignado */
     color: white;
 }
+
 
 /* Estilos para ramos completados */
 .ramo.completed {
