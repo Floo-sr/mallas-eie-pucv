@@ -1,33 +1,29 @@
-:root {
-    /* Colores base de la PUCV */
-    --pucv-blue: #004A8F; /* Azul principal PUCV */
-    --pucv-light-blue: #007bff; /* Azul más claro */
-    --pucv-gold: #FFB300; /* Dorado/Amarillo PUCV */
-    --pucv-grey: #6c757d; /* Gris para texto secundario */
-    --pucv-dark-grey: #343a40; /* Gris oscuro para texto principal */
-    --pucv-red: #DC3545; /* Rojo para limpiar ramos */
+/* Colores de ramos */
+.ramo.Fisica { background-color: var(--color-fisica); }
+.ramo.Matematica { background-color: var(--color-matematica); }
+.ramo.Quimica { background-color: var(--color-quimica); }
+.ramo.Mecanica { background-color: var(--color-mecanica); }
+.ramo.Programacion { background-color: var(--color-programacion); }
+.ramo.Electrica { background-color: var(--color-electrica); }
+.ramo.Laboratorio { background-color: var(--color-laboratorio); }
+.ramo.Gestion { background-color: var(--color-gestion); }
+.ramo.Comunicacion { background-color: var(--color-comunicacion); }
+.ramo.Electronica { background-color: var(--color-electronica); }
+.ramo.Legal { background-color: var(--color-legal); }
+.ramo.Economia { background-color: var(--color-economia); }
+.ramo.Estadistica { background-color: var(--color-estadistica); }
+.ramo.Ingles { background-color: var(--color-ingles); }
+.ramo.Proyecto { background-color: var(--color-proyecto); }
+.ramo.Optativo { background-color: var(--color-optativo); }
+.ramo.FormacionFundamental { background-color: var(--color-formacionfundamental); }
 
-    /* Colores de ramos (adaptados para armonizar con PUCV) */
-    --color-fisica: #1A5276; /* Azul profundo */
-    --color-matematica: #21618C; /* Azul un poco más claro */
-    --color-quimica: #117A65; /* Verde azulado oscuro */
-    --color-mecanica: #616A6B; /* Gris plomo */
-    --color-programacion: #2874A6; /* Azul brillante */
-    --color-electrica: #D68910; /* Naranja quemado */
-    --color-laboratorio: #BA4A00; /* Naranja oscuro */
-    --color-gestion: #28B463; /* Verde esmeralda */
-    --color-comunicacion: #F39C12; /* Naranja amarillo */
-    --color-electronica: #F4D03F; /* Amarillo mostaza */
-    --color-legal: #884EA0; /* Púrpura oscuro */
-    --color-economia: #CB4335; /* Rojo teja */
-    --color-estadistica: #17A589; /* Verde azulado */
-    --color-ingles: #3D8FFD; /* Azul claro vibrante */
-    --color-proyecto: #C0392B; /* Rojo ladrillo */
-    --color-optativo: #99A3A4; /* Gris neutro */
-    --color-formacionfundamental: #7D3C98; /* Morado oscuro */
-}
-
-body {
-    font-family: 'Montserrat', sans-serif; /* Tipografía PUCV */
-    /* ... el resto del CSS ... */
+/* Para ramos sin tipo definido, o con tipo no reconocido, o el color por defecto */
+.ramo {
+    background-color: var(--pucv-dark-grey); /* O un color neutro que prefieras */
+    color: white;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    /* ... otras propiedades ... */
 }
