@@ -1,67 +1,442 @@
 [
-    {"id": "EIE142", "nombre": "INTRODUCCION A LA INGENIERIA ELECTRICA Y ELECTRONICA", "semestre": 1, "creditos": 3, "prerrequisitos": [], "tipo": "Electrica"},
-    {"id": "FIN100", "nombre": "DESARROLLO INTEGRAL Y COMUNICACION PARA INGENIERIA", "semestre": 1, "creditos": 3, "prerrequisitos": [], "tipo": "FormacionFundamental"},
-    {"id": "FIS1121", "nombre": "INTRODUCCION A LA FISICA", "semestre": 1, "creditos": 5, "prerrequisitos": [], "tipo": "Fisica"},
-    {"id": "MAT1001", "nombre": "FUNDAMENTOS DE MATEMATICAS PARA INGENIERIA", "semestre": 1, "creditos": 6, "prerrequisitos": [], "tipo": "Matematica"},
-    {"id": "EIR010", "nombre": "ANTROPOLOGIA CRISTIANA", "semestre": 1, "creditos": 2, "prerrequisitos": [], "tipo": "FormacionFundamental"},
-
-    {"id": "FIS1001", "nombre": "FISICA MECANICA", "semestre": 2, "creditos": 5, "prerrequisitos": ["MAT1001"], "tipo": "Fisica"},
-    {"id": "MAT1002", "nombre": "CALCULO DIFERENCIAL E INTEGRAL", "semestre": 2, "creditos": 6, "prerrequisitos": ["MAT1001"], "tipo": "Matematica"},
-    {"id": "MAT1004", "nombre": "ALGEBRA LINEAL", "semestre": 2, "creditos": 4, "prerrequisitos": ["MAT1001"], "tipo": "Matematica"},
-    {"id": "QUI1140", "nombre": "FUNDAMENTOS DE QUIMICA", "semestre": 2, "creditos": 4, "prerrequisitos": [], "tipo": "Quimica"},
-
-    {"id": "EIE100", "nombre": "PROGRAMACION", "semestre": 3, "creditos": 4, "prerrequisitos": [], "tipo": "Programacion"},
-    {"id": "EIE253", "nombre": "TECNO MECANICA DE MATERIALES", "semestre": 3, "creditos": 3, "prerrequisitos": ["QUI1140"], "tipo": "Mecanica"},
-    {"id": "FIS1141", "nombre": "FISICA GENERAL: ONDAS Y TERMODINAMICA", "semestre": 3, "creditos": 3, "prerrequisitos": ["FIS1001"], "tipo": "Fisica"},
-    {"id": "MAT1003", "nombre": "CALCULO EN VARIAS VARIABLES", "semestre": 3, "creditos": 4, "prerrequisitos": ["MAT1002"], "tipo": "Matematica"},
-    {"id": "MAT1005", "nombre": "ECUACIONES DIFERENCIALES", "semestre": 3, "creditos": 4, "prerrequisitos": ["MAT1004"], "tipo": "Matematica"},
-    {"id": "EIR011", "nombre": "ETICA CRISTIANA", "semestre": 3, "creditos": 2, "prerrequisitos": [], "tipo": "FormacionFundamental"},
-
-    {"id": "EIE211", "nombre": "ESTADISTICA Y PROBABILIDADES PARA INGENIERIA", "semestre": 4, "creditos": 3, "prerrequisitos": ["MAT1002"], "tipo": "Estadistica"},
-    {"id": "EIE267", "nombre": "ELECTROMAGNETISMO", "semestre": 4, "creditos": 4, "prerrequisitos": ["MAT1003"], "tipo": "Electromagnetismo"},
-    {"id": "EIE274", "nombre": "LABORATORIO DE MEDICIONES", "semestre": 4, "creditos": 3, "prerrequisitos": ["MAT1005"], "tipo": "Laboratorio"},
-    {"id": "EIE275", "nombre": "SEÑALES Y SISTEMAS", "semestre": 4, "creditos": 4, "prerrequisitos": ["MAT1003"], "tipo": "SenalesySistemas"},
-    {"id": "EIE280", "nombre": "TEORIA DE CIRCUITOS 1", "semestre": 4, "creditos": 4, "prerrequisitos": ["MAT1005"], "tipo": "TeoriaCircuitos"},
-    {"id": "FIN101", "nombre": "FORMACION FUNDAMENTAL I", "semestre": 4, "creditos": 3, "prerrequisitos": [], "tipo": "FormacionFundamental"},
-
-    {"id": "EIE200", "nombre": "PROGRAMACION NUMERICA", "semestre": 5, "creditos": 3, "prerrequisitos": ["EIE100"], "tipo": "Programacion"},
-    {"id": "EIE315", "nombre": "CONTROL AUTOMATICO", "semestre": 5, "creditos": 4, "prerrequisitos": ["EIE275"], "tipo": "ControlAutomatico"},
-    {"id": "EIE318", "nombre": "CAMPOS Y ONDAS ELECTROMAGNETICAS", "semestre": 5, "creditos": 4, "prerrequisitos": ["EIE267"], "tipo": "Electromagnetismo"},
-    {"id": "EIE326", "nombre": "TEORIA DE CIRCUITOS 2", "semestre": 5, "creditos": 4, "prerrequisitos": ["EIE274", "EIE280"], "tipo": "TeoriaCircuitos"},
-    {"id": "ICM347", "nombre": "TERMOFLUIDOS", "semestre": 5, "creditos": 3, "prerrequisitos": ["EIE253"], "tipo": "Mecanica"},
-    {"id": "ING9001", "nombre": "INGLES 1", "semestre": 5, "creditos": 2, "prerrequisitos": [], "tipo": "Ingles"},
-
-    {"id": "EIE313", "nombre": "METODOS DE OPTIMIZACION", "semestre": 6, "creditos": 4, "prerrequisitos": ["EIE200"], "tipo": "MetodosOptimizacion"},
-    {"id": "EIE346", "nombre": "CONVERSION ELECTROMECANICA DE LA ENERGIA", "semestre": 6, "creditos": 4, "prerrequisitos": ["EIE318", "EIE326"], "tipo": "Electrica"},
-    {"id": "EIE374", "nombre": "CIRCUITOS ELECTRONICOS", "semestre": 6, "creditos": 4, "prerrequisitos": ["EIE280"], "tipo": "Electronica"},
-    {"id": "EIE400", "nombre": "INGENIERIA ECONOMICA Y FORMULACION DE PROYECTOS", "semestre": 6, "creditos": 4, "prerrequisitos": ["EIE275", "EIE274", "EIE267", "EIE280", "EIE211"], "tipo": "Ingenieria"},
-    {"id": "ING9002", "nombre": "INGLES 2", "semestre": 6, "creditos": 2, "prerrequisitos": ["ING9001"], "tipo": "Ingles"},
-    {"id": "FIN102", "nombre": "FORMACION FUNDAMENTAL II", "semestre": 6, "creditos": 3, "prerrequisitos": [], "tipo": "FormacionFundamental"},
-
-    {"id": "EIE430", "nombre": "ELECTRONICA DE POTENCIA", "semestre": 7, "creditos": 4, "prerrequisitos": ["EIE374"], "tipo": "Electronica"},
-    {"id": "EIE432", "nombre": "MAQUINAS ELECTRICAS", "semestre": 7, "creditos": 4, "prerrequisitos": ["EIE346"], "tipo": "Electrica"},
-    {"id": "EIE433", "nombre": "SISTEMAS DE COMUNICACIONES", "semestre": 7, "creditos": 4, "prerrequisitos": ["EIE315"], "tipo": "Comunicaciones"},
-    {"id": "EIE450", "nombre": "SISTEMAS ELECTRICOS DE POTENCIA", "semestre": 7, "creditos": 4, "prerrequisitos": ["EIE346"], "tipo": "Electrica"},
-    {"id": "EIE453", "nombre": "INNOVACION Y EMPRENDIMIENTO", "semestre": 7, "creditos": 2, "prerrequisitos": ["EIE275", "EIE274", "EIE267", "EIE280", "EIE211"], "tipo": "Ingenieria"},
-    {"id": "ING9003", "nombre": "INGLES 3", "semestre": 7, "creditos": 2, "prerrequisitos": ["ING9002"], "tipo": "Ingles"},
-
-    {"id": "EIE502", "nombre": "ACCIONAMIENTOS DE MAQUINAS", "semestre": 8, "creditos": 4, "prerrequisitos": ["EIE430"], "tipo": "Electrica"},
-    {"id": "EIE504", "nombre": "PROTECCIONES DE SISTEMAS ELECTRICOS", "semestre": 8, "creditos": 4, "prerrequisitos": ["EIE450"], "tipo": "Electrica"},
-    {"id": "EIE509", "nombre": "LABORATORIO ELECTRICO", "semestre": 8, "creditos": 4, "prerrequisitos": ["EIE432"], "tipo": "Laboratorio"},
-    {"id": "EII509", "nombre": "GESTION Y ADMINISTRACION", "semestre": 8, "creditos": 4, "prerrequisitos": ["EIE400", "EIE346", "EIE374", "EIE313", "ING9002"], "tipo": "Gestion"},
-    {"id": "ING9004", "nombre": "INGLES 4", "semestre": 8, "creditos": 2, "prerrequisitos": ["ING9003"], "tipo": "Ingles"},
-    {"id": "FIN103", "nombre": "FORMACION FUNDAMENTAL III", "semestre": 8, "creditos": 3, "prerrequisitos": [], "tipo": "FormacionFundamental"},
-
-    {"id": "DER1170", "nombre": "LEGISLACION, NORMATIVA SOCIAL, LABORAL Y AMBIENTAL", "semestre": 9, "creditos": 4, "prerrequisitos": ["EIE400", "EIE346", "EIE374", "EIE313", "ING9002"], "tipo": "Legislacion"},
-    {"id": "EIE518", "nombre": "DISTRIBUCION ELECTRICA", "semestre": 9, "creditos": 4, "prerrequisitos": ["EIE450"], "tipo": "Electrica"},
-    {"id": "EIE524", "nombre": "MERCADO ELECTRICO", "semestre": 9, "creditos": 4, "prerrequisitos": ["EIE450"], "tipo": "Electrica"},
-    {"id": "OPT001", "nombre": "OPTATIVO 1", "semestre": 9, "creditos": 4, "prerrequisitos": [], "tipo": "Optativo"},
-    {"id": "OPT002", "nombre": "OPTATIVO 2", "semestre": 9, "creditos": 4, "prerrequisitos": [], "tipo": "Optativo"},
-
-    {"id": "EIE529", "nombre": "PRODUCCION Y ALMACENAMIENTO DE ENERGIA", "semestre": 10, "creditos": 4, "prerrequisitos": ["EIE509"], "tipo": "Energia"},
-    {"id": "EIE630", "nombre": "SEMINARIO DE PROYECTOS", "semestre": 10, "creditos": 8, "prerrequisitos": ["EIE504", "EIE509", "EIE502", "EII509", "ING9004"], "tipo": "Proyectos"},
-    {"id": "OPT003", "nombre": "OPTATIVO 3", "semestre": 10, "creditos": 4, "prerrequisitos": [], "tipo": "Optativo"},
-    {"id": "OPT004", "nombre": "OPTATIVO 4", "semestre": 10, "creditos": 4, "prerrequisitos": [], "tipo": "Optativo"},
-
-    {"id": "EIE636", "nombre": "PROYECTO DE TITULACION", "semestre": 11, "creditos": 16, "prerrequisitos": ["EIE630"], "tipo": "Proyectos"}
+  {
+    "ramo": "INTRODUCCION A LA INGENIERIA ELECTRICA Y ELECTRONICA",
+    "codigo": "EIE142",
+    "semestre": 1,
+    "prerrequisitos": [],
+    "creditos": 3,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "DESARROLLO INTEGRAL Y COMUNICACION PARA INGENIERIA",
+    "codigo": "FIN100",
+    "semestre": 1,
+    "prerrequisitos": [],
+    "creditos": 3,
+    "tipo": "FormacionFundamental"
+  },
+  {
+    "ramo": "INTRODUCCION A LA FISICA",
+    "codigo": "FIS1121",
+    "semestre": 1,
+    "prerrequisitos": [],
+    "creditos": 5,
+    "tipo": "Fisica"
+  },
+  {
+    "ramo": "FUNDAMENTOS DE MATEMATICAS PARA INGENIERIA",
+    "codigo": "MAT1001",
+    "semestre": 1,
+    "prerrequisitos": [],
+    "creditos": 6,
+    "tipo": "Matematica"
+  },
+  {
+    "ramo": "ANTROPOLOGIA CRISTIANA",
+    "codigo": "EIR010",
+    "semestre": 1,
+    "prerrequisitos": [],
+    "creditos": 2,
+    "tipo": "FormacionFundamental"
+  },
+  {
+    "ramo": "FISICA MECANICA",
+    "codigo": "FIS1001",
+    "semestre": 2,
+    "prerrequisitos": ["MAT1001"],
+    "creditos": 5,
+    "tipo": "Fisica"
+  },
+  {
+    "ramo": "CALCULO DIFERENCIAL E INTEGRAL",
+    "codigo": "MAT1002",
+    "semestre": 2,
+    "prerrequisitos": ["MAT1001"],
+    "creditos": 6,
+    "tipo": "Matematica"
+  },
+  {
+    "ramo": "ALGEBRA LINEAL",
+    "codigo": "MAT1004",
+    "semestre": 2,
+    "prerrequisitos": ["MAT1001"],
+    "creditos": 4,
+    "tipo": "Matematica"
+  },
+  {
+    "ramo": "FUNDAMENTOS DE QUIMICA",
+    "codigo": "QUI1140",
+    "semestre": 2,
+    "prerrequisitos": [],
+    "creditos": 4,
+    "tipo": "Quimica"
+  },
+  {
+    "ramo": "PROGRAMACION",
+    "codigo": "EIE100",
+    "semestre": 3,
+    "prerrequisitos": [],
+    "creditos": 4,
+    "tipo": "Programacion"
+  },
+  {
+    "ramo": "TECNO MECANICA DE MATERIALES",
+    "codigo": "EIE253",
+    "semestre": 3,
+    "prerrequisitos": ["QUI1140"],
+    "creditos": 3,
+    "tipo": "Mecanica"
+  },
+  {
+    "ramo": "FISICA GENERAL: ONDAS Y TERMODINAMICA",
+    "codigo": "FIS1141",
+    "semestre": 3,
+    "prerrequisitos": ["FIS1001"],
+    "creditos": 3,
+    "tipo": "Fisica"
+  },
+  {
+    "ramo": "CALCULO EN VARIAS VARIABLES",
+    "codigo": "MAT1003",
+    "semestre": 3,
+    "prerrequisitos": ["MAT1002"],
+    "creditos": 4,
+    "tipo": "Matematica"
+  },
+  {
+    "ramo": "ECUACIONES DIFERENCIALES",
+    "codigo": "MAT1005",
+    "semestre": 3,
+    "prerrequisitos": ["MAT1004"],
+    "creditos": 4,
+    "tipo": "Matematica"
+  },
+  {
+    "ramo": "ETICA CRISTIANA",
+    "codigo": "EIR000",
+    "semestre": 3,
+    "prerrequisitos": [],
+    "creditos": 2,
+    "tipo": "FormacionFundamental"
+  },
+  {
+    "ramo": "ESTADISTICA Y PROBABILIDADES PARA INGENIERIA",
+    "codigo": "EIE211",
+    "semestre": 4,
+    "prerrequisitos": ["MAT1002"],
+    "creditos": 3,
+    "tipo": "Estadistica"
+  },
+  {
+    "ramo": "ELECTROMAGNETISMO",
+    "codigo": "EIE267",
+    "semestre": 4,
+    "prerrequisitos": ["MAT1003"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "LABORATORIO DE MEDICIONES",
+    "codigo": "EIE274",
+    "semestre": 4,
+    "prerrequisitos": ["MAT1005"],
+    "creditos": 3,
+    "tipo": "Laboratorio"
+  },
+  {
+    "ramo": "SEÑALES Y SISTEMAS",
+    "codigo": "EIE275",
+    "semestre": 4,
+    "prerrequisitos": ["MAT1003"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "TEORIA DE CIRCUITOS 1",
+    "codigo": "EIE280",
+    "semestre": 4,
+    "prerrequisitos": ["MAT1005"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "FORMACION FUNDAMENTAL I",
+    "codigo": "FIN001",
+    "semestre": 4,
+    "prerrequisitos": [],
+    "creditos": 2,
+    "tipo": "FormacionFundamental"
+  },
+  {
+    "ramo": "PROGRAMACION NUMERICA",
+    "codigo": "EIE200",
+    "semestre": 5,
+    "prerrequisitos": ["EIE100"],
+    "creditos": 3,
+    "tipo": "Programacion"
+  },
+  {
+    "ramo": "CONTROL AUTOMATICO",
+    "codigo": "EIE315",
+    "semestre": 5,
+    "prerrequisitos": ["EIE275"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "CAMPOS Y ONDAS ELECTROMAGNETICAS",
+    "codigo": "EIE318",
+    "semestre": 5,
+    "prerrequisitos": ["EIE267"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "TEORIA DE CIRCUITOS 2",
+    "codigo": "EIE326",
+    "semestre": 5,
+    "prerrequisitos": ["EIE274", "EIE280"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "TERMOFLUIDOS",
+    "codigo": "ICM347",
+    "semestre": 5,
+    "prerrequisitos": ["EIE253"],
+    "creditos": 3,
+    "tipo": "Mecanica"
+  },
+  {
+    "ramo": "INGLES 1",
+    "codigo": "ING9001",
+    "semestre": 5,
+    "prerrequisitos": [],
+    "creditos": 2,
+    "tipo": "Ingles"
+  },
+  {
+    "ramo": "METODOS DE OPTIMIZACION",
+    "codigo": "EIE313",
+    "semestre": 6,
+    "prerrequisitos": ["EIE200"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "CONVERSION ELECTROMECANICA DE LA ENERGIA",
+    "codigo": "EIE346",
+    "semestre": 6,
+    "prerrequisitos": ["EIE318", "EIE326"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "CIRCUITOS ELECTRONICOS",
+    "codigo": "EIE374",
+    "semestre": 6,
+    "prerrequisitos": ["EIE280"],
+    "creditos": 4,
+    "tipo": "Electronica"
+  },
+  {
+    "ramo": "INGENIERIA ECONOMICA Y FORMULACION DE PROYECTOS",
+    "codigo": "EIE400",
+    "semestre": 6,
+    "prerrequisitos": ["EIE275", "EIE274", "EIE267", "EIE280", "EIE211"],
+    "creditos": 4,
+    "tipo": "Economia"
+  },
+  {
+    "ramo": "INGLES 2",
+    "codigo": "ING9002",
+    "semestre": 6,
+    "prerrequisitos": ["ING9001"],
+    "creditos": 2,
+    "tipo": "Ingles"
+  },
+  {
+    "ramo": "FORMACION FUNDAMENTAL II",
+    "codigo": "FIN002",
+    "semestre": 6,
+    "prerrequisitos": [],
+    "creditos": 2,
+    "tipo": "FormacionFundamental"
+  },
+  {
+    "ramo": "ELECTRONICA DE POTENCIA",
+    "codigo": "EIE430",
+    "semestre": 7,
+    "prerrequisitos": ["EIE374"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "MAQUINAS ELECTRICAS",
+    "codigo": "EIE432",
+    "semestre": 7,
+    "prerrequisitos": ["EIE346"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "SISTEMAS DE COMUNICACIONES",
+    "codigo": "EIE433",
+    "semestre": 7,
+    "prerrequisitos": ["EIE315"],
+    "creditos": 4,
+    "tipo": "Comunicacion"
+  },
+  {
+    "ramo": "SISTEMAS ELECTRICOS DE POTENCIA",
+    "codigo": "EIE450",
+    "semestre": 7,
+    "prerrequisitos": ["EIE346"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "INNOVACION Y EMPRENDIMIENTO",
+    "codigo": "EIE453",
+    "semestre": 7,
+    "prerrequisitos": ["EIE275", "EIE274", "EIE267", "EIE280", "EIE211"],
+    "creditos": 2,
+    "tipo": "Gestion"
+  },
+  {
+    "ramo": "INGLES 3",
+    "codigo": "ING9003",
+    "semestre": 7,
+    "prerrequisitos": ["ING9002"],
+    "creditos": 2,
+    "tipo": "Ingles"
+  },
+  {
+    "ramo": "ACCIONAMIENTOS DE MAQUINAS",
+    "codigo": "EIE502",
+    "semestre": 8,
+    "prerrequisitos": ["EIE430"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "PROTECCIONES DE SISTEMAS ELECTRICOS",
+    "codigo": "EIE504",
+    "semestre": 8,
+    "prerrequisitos": ["EIE450"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "LABORATORIO ELECTRICO",
+    "codigo": "EIE509",
+    "semestre": 8,
+    "prerrequisitos": ["EIE432"],
+    "creditos": 4,
+    "tipo": "Laboratorio"
+  },
+  {
+    "ramo": "GESTION Y ADMINISTRACION",
+    "codigo": "EII509",
+    "semestre": 8,
+    "prerrequisitos": ["EIE400", "EIE346", "EIE374", "EIE313", "ING9002"],
+    "creditos": 4,
+    "tipo": "Gestion"
+  },
+  {
+    "ramo": "INGLES 4",
+    "codigo": "ING9004",
+    "semestre": 8,
+    "prerrequisitos": ["ING9003"],
+    "creditos": 2,
+    "tipo": "Ingles"
+  },
+  {
+    "ramo": "FORMACION FUNDAMENTAL III",
+    "codigo": "FIN003",
+    "semestre": 8,
+    "prerrequisitos": [],
+    "creditos": 2,
+    "tipo": "FormacionFundamental"
+  },
+  {
+    "ramo": "LEGISLACION, NORMATIVA SOCIAL, LABORAL Y AMBIENTAL",
+    "codigo": "DER1170",
+    "semestre": 9,
+    "prerrequisitos": ["EIE400", "EIE346", "EIE374", "EIE313", "ING9002"],
+    "creditos": 4,
+    "tipo": "Legal"
+  },
+  {
+    "ramo": "DISTRIBUCION ELECTRICA",
+    "codigo": "EIE518",
+    "semestre": 9,
+    "prerrequisitos": ["EIE450"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "MERCADO ELECTRICO",
+    "codigo": "EIE524",
+    "semestre": 9,
+    "prerrequisitos": ["EIE450"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "OPTATIVO 1",
+    "codigo": "OPT001",
+    "semestre": 9,
+    "prerrequisitos": [],
+    "creditos": 3,
+    "tipo": "Optativo"
+  },
+  {
+    "ramo": "OPTATIVO 2",
+    "codigo": "OPT002",
+    "semestre": 9,
+    "prerrequisitos": [],
+    "creditos": 3,
+    "tipo": "Optativo"
+  },
+  {
+    "ramo": "PRODUCCION Y ALMACENAMIENTO DE ENERGIA",
+    "codigo": "EIE529",
+    "semestre": 10,
+    "prerrequisitos": ["EIE509"],
+    "creditos": 4,
+    "tipo": "Electrica"
+  },
+  {
+    "ramo": "SEMINARIO DE PROYECTOS",
+    "codigo": "EIE630",
+    "semestre": 10,
+    "prerrequisitos": ["EIE504", "EIE509", "EIE502", "EII509", "ING9004"],
+    "creditos": 8,
+    "tipo": "Proyecto"
+  },
+  {
+    "ramo": "OPTATIVO 3",
+    "codigo": "OPT003",
+    "semestre": 10,
+    "prerrequisitos": [],
+    "creditos": 3,
+    "tipo": "Optativo"
+  },
+  {
+    "ramo": "OPTATIVO 4",
+    "codigo": "OPT004",
+    "semestre": 10,
+    "prerrequisitos": [],
+    "creditos": 3,
+    "tipo": "Optativo"
+  },
+  {
+    "ramo": "PROYECTO DE TITULACION",
+    "codigo": "EIE636",
+    "semestre": 11,
+    "prerrequisitos": ["EIE630"],
+    "creditos": 16,
+    "tipo": "Proyecto"
+  }
 ]
