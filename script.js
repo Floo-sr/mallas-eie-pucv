@@ -4,16 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let ramosData = [];
     let completedRamos = new Set(JSON.parse(localStorage.getItem('completedRamos')) || []);
 
-    // Función para limpiar todos los ramos completados
     clearCompletedBtn.addEventListener('click', () => {
         if (confirm('¿Estás seguro de que quieres limpiar todos los ramos aprobados?')) {
             completedRamos.clear();
             localStorage.removeItem('completedRamos');
-            renderMalla(); // Volver a renderizar la malla para reflejar los cambios
+            renderMalla();
         }
     });
 
-    // Cargar datos de los ramos
     fetch('ramos.json')
         .then(response => response.json())
         .then(data => {
@@ -23,12 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Error al cargar los ramos:', error));
 
     function renderMalla() {
-        mallaContainer.innerHTML = ''; // Limpiar contenido anterior
+        mallaContainer.innerHTML = '';
 
-        // Agrupar ramos por año y luego por semestre
         const ramosPorAnioYSemestre = {};
         ramosData.forEach(ramo => {
-            const anio = Math.ceil(ramo.semestre / 2); // Calcula el año basándose en el semestre
+            const anio = Math.ceil(ramo.semestre / 2);
             if (!ramosPorAnioYSemestre[anio]) {
                 ramosPorAnioYSemestre[anio] = {};
             }
@@ -48,20 +45,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const semestresContainer = document.createElement('div');
             semestresContainer.classList.add('semestres-container');
 
-            // Determinar los semestres para este año (ej. 1 y 2 para Año 1, 3 y 4 para Año 2)
             const semestresEnAnio = Object.keys(ramosPorAnioYSemestre[anio]).sort((a, b) => parseInt(a) - parseInt(b));
 
-            semestresEnAnio.forEach(semestre => {
+            // Asegurar que haya 2 semestres por año, incluso si uno está vacío
+            const primerSemestreAnio = (parseInt(anio) - 1) * 2 + 1;
+            const segundoSemestreAnio = primerSemestreAnio + 1;
+
+            [primerSemestreAnio, segundoSemestreAnio].forEach(semestreNumero => {
                 const semestreDiv = document.createElement('div');
                 semestreDiv.classList.add('semestre');
-                semestreDiv.setAttribute('data-semestre', semestre);
-                semestreDiv.innerHTML = `<h3>Semestre ${semestre}</h3>`;
+                semestreDiv.setAttribute('data-semestre', semestreNumero);
+                semestreDiv.innerHTML = `<h3>Semestre ${semestreNumero}</h3>`;
 
                 const ramosList = document.createElement('div');
                 ramosList.classList.add('ramos-list');
 
-                const ramosEnSemestre = ramosPorAnioYSemestre[anio][semestre] || [];
-                // Opcional: ordenar ramos dentro del semestre si quieres un orden específico, por ejemplo por código o nombre
+                const ramosEnSemestre = ramosPorAnioYSemestre[anio][semestreNumero] || [];
                 ramosEnSemestre.sort((a, b) => a.ramo.localeCompare(b.ramo));
 
                 ramosEnSemestre.forEach(ramo => {
@@ -77,17 +76,21 @@ document.addEventListener('DOMContentLoaded', () => {
             mallaContainer.appendChild(anioSection);
         });
 
-        updateRamoStates(); // Actualizar estados iniciales (completados, desbloqueados)
+        updateRamoStates();
     }
 
     function createRamoElement(ramo) {
         const ramoDiv = document.createElement('div');
         ramoDiv.classList.add('ramo');
-        // Asegúrate de limpiar el nombre del tipo para usarlo como clase CSS
-        ramoDiv.classList.add(ramo.tipo.replace(/\s/g, '').replace(/á/g, 'a').replace(/é/g, 'e').replace(/í/g, 'i').replace(/ó/g, 'o').replace(/ú/g, 'u'));
+        // Limpiar y estandarizar el nombre del tipo para usarlo como clase CSS
+        const tipoClass = ramo.tipo
+            .replace(/\s/g, '') // Eliminar espacios
+            .replace(/á/g, 'a').replace(/é/g, 'e').replace(/í/g, 'i').replace(/ó/g, 'o').replace(/ú/g, 'u') // Quitar tildes
+            .replace(/ñ/g, 'n'); // Reemplazar ñ
+        ramoDiv.classList.add(tipoClass);
         ramoDiv.setAttribute('data-codigo', ramo.codigo);
         ramoDiv.setAttribute('data-semestre', ramo.semestre);
-        ramoDiv.setAttribute('data-prerrequisitos', JSON.stringify(ramo.prerrequisitos)); // Guardar prerrequisitos
+        ramoDiv.setAttribute('data-prerrequisitos', JSON.stringify(ramo.prerrequisitos));
 
         ramoDiv.innerHTML = `
             <div class="codigo">${ramo.codigo || 'N/A'}</div>
@@ -95,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="creditos">${ramo.creditos || 'N/A'} Créditos</div>
         `;
 
-        // Marcar si está completado
         if (completedRamos.has(ramo.codigo)) {
             ramoDiv.classList.add('completed');
         }
@@ -119,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (completedRamos.has(codigo)) {
             completedRamos.delete(codigo);
         } else {
-            // Verificar prerrequisitos antes de marcar como completado
             const ramo = ramosData.find(r => r.codigo === codigo);
             if (ramo && !arePrerequisitesMet(ramo.prerrequisitos)) {
                 alert('No puedes marcar este ramo como aprobado, ¡faltan prerrequisitos!');
@@ -128,14 +129,13 @@ document.addEventListener('DOMContentLoaded', () => {
             completedRamos.add(codigo);
         }
         localStorage.setItem('completedRamos', JSON.stringify(Array.from(completedRamos)));
-        updateRamoStates(); // Actualizar todos los ramos
+        updateRamoStates();
     }
 
     function arePrerequisitesMet(prerrequisitos) {
         if (!prerrequisitos || prerrequisitos.length === 0) {
-            return true; // No hay prerrequisitos
+            return true;
         }
-        // Todos los prerrequisitos deben estar en el conjunto de ramos completados
         return prerrequisitos.every(prereq => completedRamos.has(prereq));
     }
 
