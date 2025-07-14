@@ -1,29 +1,17 @@
 :root {
     /* Colores base proporcionados */
     --color-primary: #245c8c; /* Azul oscuro */
-    --color-secondary: #6c7486; /* Gris azulado */
+    --color-secondary: #6c7486; /* Gris azulado - Nuevo color para ramos sin categoría específica */
     --color-tertiary: #a45b53; /* Burdeo */
     --color-quaternary: #a18c4b; /* Ocre */
 
-    /* Colores para tipos de ramos */
+    /* Colores para tipos de ramos específicos */
     --color-fisica: var(--color-primary); /* Azul */
     --color-matematica: #4a90e2; /* Celeste (variante de azul) */
     --color-formacion-fundamental: var(--color-tertiary); /* Burdeo */
-    --color-electrica: #4CAF50; /* Verde */
-    --color-programacion: #FFC107; /* Amarillo */
-    --color-mecanica: #9C27B0; /* Púrpura */
-    --color-gestion: #00BCD4; /* Cian */
-    --color-laboratorio: #FF5722; /* Naranja */
-    --color-ingles: #795548; /* Marrón */
     --color-quimica: #607D8B; /* Gris pizarra */
-    --color-economia: #E91E63; /* Rosa */
-    --color-legal: #7CB342; /* Verde Lima */
-    --color-comunicacion: #8BC34A; /* Verde más claro */
-    --color-electronica: #CDDC39; /* Verde lima amarillento */
-    --color-proyecto: #D81B60; /* Rosa oscuro */
-    --color-estadistica: #81D4FA; /* Azul claro */
-    --color-optativo: var(--color-secondary); /* Gris azulado por defecto para optativos */
-    --color-default: #CCCCCC; /* Gris claro para tipos no definidos */
+    --color-mecanica: #9C27B0; /* Púrpura */
+    --color-programacion: #FFC107; /* Amarillo */
 
     /* Colores de resaltado */
     --highlight-prereq: var(--color-quaternary); /* Ocre */
@@ -65,6 +53,8 @@ header h2 {
 
 .controls {
     margin-top: 15px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 #clearCompleted {
@@ -83,10 +73,11 @@ header h2 {
 }
 
 #malla-container {
-    display: flex;
+    display: flex; /* Permite que las secciones de año se apilen verticalmente */
     flex-direction: column;
     padding: 0 20px;
     gap: 30px;
+    overflow-x: auto; /* Permite el desplazamiento horizontal si los años son demasiado anchos */
 }
 
 .year-section {
@@ -107,10 +98,13 @@ header h2 {
 }
 
 .semesters-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Centra los semestres */
+    display: flex; /* Ahora los semestres irán horizontalmente */
+    flex-direction: row;
+    flex-wrap: nowrap; /* Evita que los semestres se envuelvan a la siguiente línea */
+    justify-content: flex-start; /* Alinea los semestres al inicio */
     gap: 25px;
+    overflow-x: auto; /* Permite el desplazamiento horizontal si los semestres son demasiado anchos */
+    padding-bottom: 15px; /* Espacio para la barra de desplazamiento si aparece */
 }
 
 .semestre {
@@ -118,12 +112,13 @@ header h2 {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 15px;
-    width: 280px; /* Ancho fijo para cada columna de semestre */
+    min-width: 280px; /* Ancho mínimo para cada columna de semestre */
     min-height: 250px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
     transition: transform 0.2s ease;
+    flex-shrink: 0; /* Evita que los elementos se encojan */
 }
 
 .semestre:hover {
@@ -141,13 +136,13 @@ header h2 {
 }
 
 .ramo {
-    background-color: var(--color-default); /* Color por defecto */
+    background-color: var(--color-secondary); /* Color por defecto para tipos no especificados */
     border-radius: 6px;
     padding: 12px;
     margin-bottom: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: white; /* Texto blanco para contrastar con fondos de colores */
+    color: white; /* Texto blanco por defecto */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
@@ -155,7 +150,7 @@ header h2 {
     align-items: center;
     text-align: center;
     min-height: 80px;
-    position: relative; /* Para la línea tachada */
+    position: relative;
 }
 
 .ramo:hover {
@@ -175,33 +170,21 @@ header h2 {
     font-weight: 500;
 }
 
-/* Colores por tipo de ramo */
-.ramo.Electrica { background-color: var(--color-electrica); }
+/* Colores específicos por tipo de ramo */
 .ramo.Fisica { background-color: var(--color-fisica); }
 .ramo.Matematica { background-color: var(--color-matematica); }
 .ramo.FormacionFundamental { background-color: var(--color-formacion-fundamental); }
 .ramo.Quimica { background-color: var(--color-quimica); }
-.ramo.Programacion { background-color: var(--color-programacion); color: #333; } /* Ajuste de texto para amarillo */
 .ramo.Mecanica { background-color: var(--color-mecanica); }
-.ramo.Estadistica { background-color: var(--color-estadistica); }
-.ramo.Laboratorio { background-color: var(--color-laboratorio); }
-.ramo.Ingles { background-color: var(--color-ingles); }
-.ramo.Gestion { background-color: var(--color-gestion); color: #333;} /* Ajuste de texto para cian */
-.ramo.Comunicacion { background-color: var(--color-comunicacion); color: #333; } /* Ajuste de texto */
-.ramo.Electronica { background-color: var(--color-electronica); color: #333; } /* Ajuste de texto */
-.ramo.Proyecto { background-color: var(--color-proyecto); }
-.ramo.Legal { background-color: var(--color-legal); color: #333; } /* Ajuste de texto */
-.ramo.Economia { background-color: var(--color-economia); }
-.ramo.Optativo { background-color: var(--color-optativo); }
-
+.ramo.Programacion { background-color: var(--color-programacion); color: #333; } /* Texto oscuro para fondo claro */
 
 /* Estilos para ramos completados */
 .ramo.completed {
-    background-color: var(--highlight-completed-bg) !important; /* !important para asegurar que sobrescriba el color de tipo */
+    background-color: var(--highlight-completed-bg) !important;
     color: var(--highlight-completed-text) !important;
     text-decoration: line-through;
     opacity: 0.6;
-    pointer-events: auto; /* Permite hacer clic para desmarcar */
+    pointer-events: auto;
     transform: none;
     box-shadow: none;
 }
@@ -209,7 +192,7 @@ header h2 {
 /* Estilos para ramos desbloqueados (listos para tomar) */
 .ramo.unlocked {
     border: 3px solid var(--highlight-unlocked-border);
-    box-shadow: 0 0 15px rgba(33, 150, 243, 0.4); /* Resplandor azul */
+    box-shadow: 0 0 15px rgba(33, 150, 243, 0.4);
     opacity: 1;
     transform: scale(1.01);
 }
@@ -236,11 +219,10 @@ header h2 {
 
 /* Estilo para el ramo actualmente seleccionado/cliqueado */
 .ramo.highlight-selected {
-    border: 3px solid #FF9800; /* Naranja para el seleccionado */
+    border: 3px solid #FF9800;
     box-shadow: 0 0 12px rgba(255, 152, 0, 0.6);
     transform: scale(1.04);
 }
-
 
 footer {
     text-align: center;
